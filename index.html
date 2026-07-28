@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flyrank AI Internship | AI Fluency Projects</title>
+    <title>Vinay | Flyrank AI Internship </title>
     <link rel="stylesheet" href="style.css">
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
 
@@ -17,14 +17,38 @@
     <main class="container">
         <!-- Header Section -->
         <header class="header">
-            <span class="badge">Flyrank Internship</span>
-            <h1>AI Fluency Course Directory</h1>
-            <p>A central repository for all project modules and submissions built during the AI Fluency track at Flyrank.</p>
+            <span class="badge">Flyrank Internship Portfolio</span>
+            <h1>Internship Directory</h1>
+            <p>Central repository for all project modules, live deployments, Anthropic certifications, and internship documentation.</p>
+            
+            <h1>Track : 2 - AI Fluency</h1>
+            <!-- Main Action Buttons -->
+            <div class="header-action-btns">
+                <!-- 1. Developer Info Button -->
+                <button class="action-btn" onclick="openModal('profileModal')">
+                    👤 Developer Profile
+                </button>
+
+                <!-- 2. Internship & Certifications Details Button -->
+                <button class="action-btn highlight" onclick="openModal('internshipModal')">
+                    🎓 Internship Details
+                </button>
+
+                <!-- 3. Direct ML Track Repo Link Button -->
+                <a href="https://github.com/vinaysingh-05/Vinay-flyrank-ml-internship" target="_blank" class="action-btn ml-track-btn">
+                    🚀 ML Track (In-Progress) 
+                </a>
+            </div>
         </header>
+
+        <!-- Section Title: Live Deployed Projects -->
+        <div class="section-divider">
+            <h2>Deployed Project Modules</h2>
+            <div class="line"></div>
+        </div>
 
         <!-- Projects Grid -->
         <section class="projects-grid">
-
             <!-- PROJECT 1 -->
             <article class="project-card">
                 <div class="card-header">
@@ -32,12 +56,9 @@
                     <h3>AI Research Assistant</h3>
                 </div>
                 <p>AI Research Assistant module project developed under the AI Fluency track.</p>
-                
                 <div class="link-section">
                     <span class="link-label">Deploy URL:</span>
-                    <a href="./AI_Research_Assistant/" target="_blank" class="deploy-link">
-                        ./AI_Research_Assistant/ ↗
-                    </a>
+                    <a href="./AI_Research_Assistant/" target="_blank" class="deploy-link">./AI_Research_Assistant/ ↗</a>
                 </div>
             </article>
 
@@ -48,12 +69,9 @@
                     <h3>ML Research Website</h3>
                 </div>
                 <p>Machine Learning Research Website submission for the AI Fluency coursework.</p>
-                
                 <div class="link-section">
                     <span class="link-label">Deploy URL:</span>
-                    <a href="./ML-research-website/" target="_blank" class="deploy-link">
-                        ./ML-research-website/ ↗
-                    </a>
+                    <a href="./ML-research-website/" target="_blank" class="deploy-link">./ML-research-website/ ↗</a>
                 </div>
             </article>
 
@@ -64,12 +82,9 @@
                     <h3>Personal Brand Identity Kit</h3>
                 </div>
                 <p>Personal Brand Identity Kit designed as part of the AI Fluency practical assignments.</p>
-                
                 <div class="link-section">
                     <span class="link-label">Deploy URL:</span>
-                    <a href="./Personal-Brand-Identity-Kit/" target="_blank" class="deploy-link">
-                        ./Personal-Brand-Identity-Kit/ ↗
-                    </a>
+                    <a href="./Personal-Brand-Identity-Kit/" target="_blank" class="deploy-link">./Personal-Brand-Identity-Kit/ ↗</a>
                 </div>
             </article>
 
@@ -80,37 +95,313 @@
                     <h3>Portfolio Content Map</h3>
                 </div>
                 <p>Portfolio Content Mapping project structured during the Flyrank internship training.</p>
-                
                 <div class="link-section">
                     <span class="link-label">Deploy URL:</span>
-                    <a href="./Portfolio-Content-Map/" target="_blank" class="deploy-link">
-                        ./Portfolio-Content-Map/ ↗
-                    </a>
+                    <a href="./Portfolio-Content-Map/" target="_blank" class="deploy-link">./Portfolio-Content-Map/ ↗</a>
                 </div>
             </article>
 
-            <article class="project-card" style="border-color: #38bdf8;">
+            <!-- PROJECT 5 -->
+            <article class="project-card">
                 <div class="card-header">
-                    <span class="tag">Add-on Module</span>
+                    <span class="tag">AI Fluency Module</span>
                     <h3>Portfolio Empty But Live</h3>
                 </div>
                 <p>Live empty portfolio template integrated as an additional resource module.</p>
-                
                 <div class="link-section">
                     <span class="link-label">Deploy URL:</span>
-                    <a href="./portfolio-empty-but-live/" target="_blank" class="deploy-link">
-                        ./portfolio-empty-but-live/ ↗
-                    </a>
+                    <a href="./portfolio-empty-but-live/" target="_blank" class="deploy-link">./portfolio-empty-but-live/ ↗</a>
                 </div>
             </article>
 
+            <!-- PROJECT 6 -->
+            <article class="project-card">
+                <div class="card-header">
+                    <span class="tag">AI Fluency Module</span>
+                    <h3>vs-agents-mcp</h3>
+                </div>
+                <p>Conceptual Explainer, FL-04 Pipeline Classification, & Live MCP Tool Execution Evidence.</p>
+                <div class="link-section">
+                    <span class="link-label">Deploy URL:</span>
+                    <a href="https://vinaysingh-05.github.io/fl04-workflows-vs-agents-mcp/" target="_blank" class="deploy-link">./fl04-workflows-vs-agents-mcp/ ↗</a>
+                </div>
+            </article>
+        </section>
+
+        <!-- Section Title: PDF Documentation Library -->
+        <div class="section-divider" style="margin-top: 60px;">
+            <h2>Repository PDF Documentation (/docs)</h2>
+            <div class="line"></div>
+        </div>
+
+        <!-- Dynamic PDF List Grid -->
+        <section class="pdf-grid" id="pdf-container">
+            <!-- Dynamic PDFs fetched from GitHub docs/ folder will appear here -->
         </section>
 
         <!-- Footer -->
         <footer class="footer">
-            <p>Flyrank AI Internship • AI Fluency Coursework</p>
+            <p>Flyrank AI Internship • Machine Learning Engineering & AI Fluency Tracks • Vinay Kumar</p>
+            <div class="footer-links">
+                <a href="https://github.com/vinaysingh-05" target="_blank">GitHub 🐙</a>
+                <a href="https://www.linkedin.com/in/vinay-kumar0805" target="_blank">LinkedIn 💼</a>
+                <a href="mailto:vk8964210@gmail.com">Contact Email ✉️</a>
+            </div>
         </footer>
     </main>
 
+    <!-- ========================================== -->
+    <!-- MODAL 1: DEVELOPER PROFILE                 -->
+    <!-- ========================================== -->
+    <div class="modal-overlay" id="profileModal" onclick="closeModalOnOutsideClick(event, 'profileModal')">
+        <div class="modal-card">
+            <button class="close-btn" onclick="closeModal('profileModal')">×</button>
+            <div class="modal-header">
+                <span class="badge">Developer Profile</span>
+                <h2>Vinay Kumar</h2>
+                <p class="role-subtitle">• AI/ML Engineer</p>
+            </div>
+            
+            <div class="modal-body">
+                <div class="detail-row">
+                    <span class="label">Education</span>
+                    <span class="val">B.Tech in Artificial Intelligence (GGSIPU / USAR)</span>
+                </div>
+                <div class="detail-row">
+                    <span class="label">Location</span>
+                    <span class="val">Delhi, India</span>
+                </div>
+                <div class="detail-row">
+                    <span class="label">Primary Stack</span>
+                    <span class="val">C++, Python, React.js, Next.js, Node.js, Fast API, TensorFlow, Firebase</span>
+                </div>
+                <div class="detail-row">
+                    <span class="label">Email</span>
+                    <span class="val">vk8964210@gmail.com</span>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <a href="https://github.com/vinaysingh-05" target="_blank" class="modal-link">GitHub Profile</a>
+                <a href="https://www.linkedin.com/in/vinay-kumar0805" target="_blank" class="modal-link primary">LinkedIn Profile</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- MODAL 2: INTERNSHIP DETAILS                -->
+    <!-- ========================================== -->
+    <div class="modal-overlay" id="internshipModal" onclick="closeModalOnOutsideClick(event, 'internshipModal')">
+        <div class="modal-card wide">
+            <button class="close-btn" onclick="closeModal('internshipModal')">×</button>
+            <div class="modal-header">
+                <span class="intern-status">Status: Approved</span>
+                <h2>FlyRank Internship Program</h2>
+                <p class="role-subtitle">Machine Learning Engineering Intern</p>
+            </div>
+            
+            <div class="modal-body">
+                <div class="internship-grid">
+                    <div class="info-box">
+                        <span class="info-label">Intern Name</span>
+                        <span class="info-value">Vinay Kumar</span>
+                    </div>
+                    <div class="info-box">
+                        <span class="info-label">Program Track</span>
+                        <span class="info-value">July 2026 - Machine Learning</span>
+                    </div>
+                    <div class="info-box">
+                        <span class="info-label">Duration</span>
+                        <span class="info-value">(July 1 – Aug 12, 2026)</span>
+                    </div>
+                     <div class="info-box">
+                        <span class="info-label">Track</span>
+                        <span class="info-value">T-1:Machine Learning & T-2:AI Fluency</span>
+                    </div>
+                    <div class="info-box">
+                        <span class="info-label">Issued By</span>
+                        <span class="info-value">Alen Malkoc, CEO (FlyRank Corp)</span>
+                    </div>
+                </div>
+
+                <!-- Sub-Button inside Internship Modal to open Certifications -->
+                <div class="sub-modal-trigger-box">
+                    <div>
+                        <h4>Anthropic / Claude Coursework</h4>
+                        <p>20 Completed Certification Courses in LLM Development & Agents.</p>
+                    </div>
+                    <button class="course-modal-btn" onclick="switchModal('internshipModal', 'certModal')">
+                        📜 View 20 Certifications ➔
+                    </button>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <a href="https://github.com/vinaysingh-05/Vinay-flyrank-ml-internship" target="_blank" class="modal-link primary">
+                    Open ML Track Repository ↗
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- MODAL 3: 20 ANTHROPIC CERTIFICATIONS       -->
+    <!-- ========================================== -->
+    <div class="modal-overlay" id="certModal" onclick="closeModalOnOutsideClick(event, 'certModal')">
+        <div class="modal-card extra-wide">
+            <button class="close-btn" onclick="closeModal('certModal')">×</button>
+            <div class="modal-header">
+                <span class="tag-purple">Anthropic Certification Series</span>
+                <h2>20 Claude Learning Courses Completed</h2>
+                <p class="role-subtitle">Comprehensive AI, MCP Protocol, Agentic Systems & Cloud Deployments</p>
+            </div>
+            
+            <div class="modal-body">
+                <div class="cert-grid">
+                    <!-- Foundations -->
+                    <div class="cert-card">
+                        <h3>Foundations</h3>
+                        <ul>
+                            <li>Claude 101</li>
+                            <li>AI Capabilities & Limitations</li>
+                            <li>AI Fluency Framework</li>
+                        </ul>
+                    </div>
+
+                    <!-- Development -->
+                    <div class="cert-card">
+                        <h3>Development</h3>
+                        <ul>
+                            <li>Claude Code</li>
+                            <li>Claude Platform</li>
+                            <li>Claude API</li>
+                        </ul>
+                    </div>
+
+                    <!-- Advanced AI -->
+                    <div class="cert-card">
+                        <h3>Advanced AI</h3>
+                        <ul>
+                            <li>MCP (Model Context Protocol)</li>
+                            <li>Agent Skills</li>
+                            <li>Subagents</li>
+                        </ul>
+                    </div>
+
+                    <!-- Cloud AI -->
+                    <div class="cert-card">
+                        <h3>Cloud AI</h3>
+                        <ul>
+                            <li>Amazon Bedrock</li>
+                            <li>Google Vertex AI</li>
+                        </ul>
+                    </div>
+
+                    <!-- Real-World AI -->
+                    <div class="cert-card wide">
+                        <h3>Real-World AI</h3>
+                        <ul class="two-col">
+                            <li>Builders</li>
+                            <li>Students</li>
+                            <li>Educators</li>
+                            <li>Teaching AI</li>
+                            <li>Small Businesses</li>
+                            <li>Nonprofits</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button class="modal-link" onclick="switchModal('certModal', 'internshipModal')">
+                    ⬅ Back to Internship Details
+                </button>
+                <a href="https://www.linkedin.com/posts/vinay-kumar0805_20-anthropic-certifications-ugcPost-7483134782361579520-I1hA/?utm_source=share&utm_medium=member_desktop&rcm=ACoAAE5BPcoB2uuwHI4A1IrbZvwLksEkDX3-2Uw" target="_blank" class="modal-link primary">
+                    View Verified LinkedIn Post 
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- GitHub Dynamic PDF Auto-Loader Script -->
+    <script>
+        const REPO_OWNER = "vinaysingh-05"; 
+        const REPO_NAME = "AI-Fluency-FlyRankAI-internship";
+        const DOCS_FOLDER = "docs";
+
+        async function fetchRepoPDFs() {
+            const container = document.getElementById('pdf-container');
+            container.innerHTML = `<p style="color: var(--text-secondary); grid-column: 1/-1;">Loading PDF documents from /docs folder...</p>`;
+
+            try {
+                const response = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${DOCS_FOLDER}`);
+                if (!response.ok) throw new Error("Could not fetch docs folder.");
+
+                const files = await response.json();
+                const pdfFiles = files.filter(file => file.name.toLowerCase().endsWith('.pdf'));
+
+                if (pdfFiles.length === 0) {
+                    container.innerHTML = `<p style="color: var(--text-secondary); grid-column: 1/-1;">No PDF files found in the /docs folder.</p>`;
+                    return;
+                }
+
+                container.innerHTML = '';
+
+                pdfFiles.forEach(file => {
+                    const card = document.createElement('article');
+                    card.className = 'pdf-card';
+                    const cleanTitle = file.name
+                        .replace(/\.pdf$/i, '')
+                        .replace(/[-_]/g, ' ')
+                        .replace(/\b\w/g, l => l.toUpperCase());
+                    
+                    card.innerHTML = `
+                        <div class="pdf-badge">Documentation PDF</div>
+                        <h3>${cleanTitle}</h3>
+                        <p>Official project document stored in repository /docs path.</p>
+                        <div class="pdf-actions">
+                            <a href="${file.html_url}" target="_blank" class="pdf-btn view-btn">Open PDF 📄</a>
+                        </div>
+                    `;
+                    container.appendChild(card);
+                });
+
+            } catch (err) {
+                container.innerHTML = `
+                    <article class="pdf-card">
+                        <div class="pdf-badge">Local Backup</div>
+                        <h3>FlyRank Internship Confirmation</h3>
+                        <p>Official Confirmation Letter for Machine Learning Engineering Intern.</p>
+                        <div class="pdf-actions">
+                            <a href="./docs/flyrank-internship.pdf" target="_blank" class="pdf-btn view-btn">Open PDF 📄</a>
+                            <a href="./docs/flyrank-internship.pdf" download class="pdf-btn download-btn">Download ⬇</a>
+                        </div>
+                    </article>
+                `;
+            }
+        }
+        
+        fetchRepoPDFs();
+
+        // Modal Interactive Management Functions
+        function openModal(id) {
+            document.getElementById(id).classList.add('active');
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).classList.remove('active');
+        }
+
+        function closeModalOnOutsideClick(e, id) {
+            if (e.target.id === id) closeModal(id);
+        }
+
+        function switchModal(closeId, openId) {
+            closeModal(closeId);
+            setTimeout(() => {
+                openModal(openId);
+            }, 200);
+        }
+    </script>
 </body>
 </html>
