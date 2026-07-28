@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Fieldnote — AI Study Assistant</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<style>
+  :root{
+    --ink:#EDEDE7; --bg:#121C21; --panel:#182228; --panel2:#1D2A31;
+    --teal:#7FA69B; --amber:#E8A33D; --line:#28383F; --user:#233842;
+  }
+  *{box-sizing:border-box;}
+  html,body{height:100%;}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:'Inter',sans-serif; overflow:hidden;
+  }
+  .shell{display:grid; grid-template-columns:280px 1fr; height:100vh;}
+  /* Sidebar */
+  .side{background:var(--panel); border-right:1px solid var(--line); padding:22px 18px; display:flex; flex-direction:column;}
+  .brand{font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--amber); letter-spacing:.14em; text-transform:uppercase;}
+  .brand-title{font-family:'Source Serif 4',serif; font-size:22px; font-weight:600; margin:4px 0 18px;}
+  .drop{
+    border:1.5px dashed var(--line); border-radius:8px; padding:20px 14px;
+    text-align:center; cursor:pointer; font-size:13px; color:var(--teal);
+    transition:border-color .15s, background .15s;
+  }
+  .drop.drag{border-color:var(--amber); background:var(--panel2); color:var(--ink);}
+  .drop input{display:none;}
+  .apikey{
+    margin:12px 0 6px; padding:10px; border:1px solid var(--line); border-radius:8px;
+    background:var(--panel2);
+  }
+  .apikey label{display:block; font-size:11px; color:var(--teal); font-family:'IBM Plex Mono',monospace; margin-bottom:6px;}
+  .apikey input{
+    width:100%; background:#111a1f; border:1px solid var(--line); color:var(--ink);
+    border-radius:6px; padding:8px 10px; font-size:12px; font-family:'IBM Plex Mono',monospace;
+  }
+  .apikey input:focus{outline:2px solid var(--amber); outline-offset:1px;}
+  .apikey .sub{display:block; margin-top:6px; font-size:10px; color:var(--teal); line-height:1.4;}
+  .filecard{
+    display:flex; align-items:center; justify-content:space-between;
+    background:var(--panel2); border:1px solid var(--line); border-radius:6px;
+    padding:8px 10px; margin-top:8px; font-size:12px;
+  }
+  .filecard .name{overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:170px; font-family:'IBM Plex Mono',monospace;}
+  .filecard .pages{color:var(--teal); font-size:11px;}
+  .filecard button{
+    background:none; border:none; color:var(--teal); cursor:pointer; font-size:14px; padding:0 2px;
+  }
+  .filecard button:hover{color:#e26a5c;}
+  .filesbox{overflow-y:auto; margin:12px 0; flex:1;}
+  .empty-files{color:var(--teal); font-size:12px; font-style:italic; margin-top:14px;}
+  .clearbtn{
+    background:none; border:1px solid var(--line); color:var(--teal);
+    padding:8px; border-radius:6px; font-size:12px; cursor:pointer;
+  }
+  .clearbtn:hover{border-color:var(--amber); color:var(--amber);}
+  /* Main */
+  .main{display:flex; flex-direction:column; height:100vh;}
+  .topbar{padding:16px 28px; border-bottom:1px solid var(--line); color:var(--teal); font-size:13px; font-family:'IBM Plex Mono',monospace;}
+  .thread{flex:1; overflow-y:auto; padding:28px; display:flex; flex-direction:column; gap:18px;}
+  .msg{max-width:680px; line-height:1.7; font-size:15.5px;}
+  .msg.user{
+    align-self:flex-end; background:var(--user); border-radius:10px 10px 2px 10px;
+    padding:12px 16px; font-family:'Inter',sans-serif;
+  }
+  .msg.ai{
+    align-self:flex-start; font-family:'Source Serif 4',serif; font-size:16.5px;
+  }
+  .msg.ai .src{
+    display:block; margin-top:10px; font-family:'IBM Plex Mono',monospace;
+    font-size:11px; color:var(--teal); border-top:1px dashed var(--line); padding-top:6px;
+  }
+  .msg.ai h2{font-size:17px; font-family:'Inter',sans-serif; color:var(--amber); margin:14px 0 4px;}
+  .msg.ai strong{color:var(--amber);}
+  .placeholder{margin:auto; text-align:center; color:var(--teal); font-size:14px; max-width:340px; line-height:1.6;}
+  .placeholder .big{font-family:'Source Serif 4',serif; font-size:24px; color:var(--ink); margin-bottom:8px;}
+  .inputbar{padding:18px 28px 26px; border-top:1px solid var(--line);}
+  .inputrow{display:flex; gap:8px;}
+  textarea{
+    flex:1; resize:none; background:var(--panel2); border:1px solid var(--line);
+    color:var(--ink); border-radius:8px; padding:12px 14px; font-size:14.5px;
+    font-family:'Inter',sans-serif; height:46px; max-height:120px;
+  }
+  textarea:focus{outline:2px solid var(--amber); outline-offset:1px;}
+  button.send{
+    background:var(--amber); color:#121C21; border:none; border-radius:8px;
+    padding:0 22px; font-weight:700; font-size:14px; cursor:pointer;
+  }
+  button.send:disabled{opacity:.4; cursor:progress;}
+  .hint{font-size:11px; color:var(--teal); margin-top:6px; font-family:'IBM Plex Mono',monospace;}
+  .cursor{display:inline-block; width:6px; height:14px; background:var(--amber); animation:blink 1s step-end infinite; vertical-align:middle;}
+  @keyframes blink{50%{opacity:0;}}
+  ::-webkit-scrollbar{width:8px;} ::-webkit-scrollbar-thumb{background:var(--line); border-radius:4px;}
+</style>
+</head>
+<body>
+<div class="shell">
+  <div class="side">
+    <div class="brand">Fieldnote</div>
+    <div class="brand-title">Study Assistant</div>
+    <div class="apikey">
+      <label for="apiKey">Anthropic API key (optional)</label>
+      <input id="apiKey" type="password" autocomplete="off" placeholder="Leave blank for local mode">
+      <span class="sub">Local mode searches your PDFs directly. Add a key only if you want cloud AI replies.</span>
+    </div>
+    <label class="drop" id="drop">
+      <input type="file" id="file" accept="application/pdf" multiple>
+      Drop PDFs here or click to upload
+    </label>
+    <div class="filesbox" id="filesbox"><div class="empty-files">No documents yet.</div></div>
+    <button class="clearbtn" id="clearChat">Clear conversation</button>
+  </div>
+
+  <div class="main">
+    <div class="topbar" id="topbar">0 documents loaded — answers are grounded only in what you upload.</div>
+    <div class="thread" id="thread">
+      <div class="placeholder">
+        <div class="big">Ask your documents anything</div>
+        Upload lecture notes or papers, then ask a question. I'll answer only from what you've given me, and tell you plainly when something isn't in there.
+      </div>
+    </div>
+    <div class="inputbar">
+      <div class="inputrow">
+        <textarea id="q" placeholder="Ask a question about your uploaded PDFs…"></textarea>
+        <button class="send" id="go">Ask</button>
+      </div>
+      <div class="hint" id="hint"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+
+let docs = [];      // {id, name, pages, text}
+let history = [];   // chat turns sent to API
+const stopWords = new Set(['about','after','also','an','and','any','are','around','asked','ask','can','could','does','each','find','from','have','how','into','more','need','page','pages','pdf','please','that','the','their','there','this','what','when','where','which','who','why','with','would','your']);
+const drop = document.getElementById('drop');
+const fileInput = document.getElementById('file');
+const apiKeyInput = document.getElementById('apiKey');
+const filesbox = document.getElementById('filesbox');
+const topbar = document.getElementById('topbar');
+const thread = document.getElementById('thread');
+const q = document.getElementById('q');
+const go = document.getElementById('go');
+const hint = document.getElementById('hint');
+
+apiKeyInput.value = localStorage.getItem('fieldnote.anthropicKey') || '';
+apiKeyInput.addEventListener('input', () => {
+  localStorage.setItem('fieldnote.anthropicKey', apiKeyInput.value.trim());
+});
+
+// Drag & drop
+['dragenter','dragover'].forEach(ev => drop.addEventListener(ev, e=>{e.preventDefault(); drop.classList.add('drag');}));
+['dragleave','drop'].forEach(ev => drop.addEventListener(ev, e=>{e.preventDefault(); drop.classList.remove('drag');}));
+drop.addEventListener('drop', e => handleFiles(e.dataTransfer.files));
+fileInput.addEventListener('change', e => handleFiles(e.target.files));
+
+function renderFiles(){
+  if(docs.length===0){ filesbox.innerHTML = '<div class="empty-files">No documents yet.</div>'; }
+  else {
+    filesbox.innerHTML = docs.map(d=>`
+      <div class="filecard">
+        <div><div class="name">${d.name}</div><div class="pages">${d.pages} pages</div></div>
+        <button data-id="${d.id}" title="Remove">✕</button>
+      </div>`).join('');
+    filesbox.querySelectorAll('button').forEach(b=>{
+      b.onclick = ()=>{ docs = docs.filter(d=>d.id!==b.dataset.id); renderFiles(); updateTopbar(); };
+    });
+  }
+  updateTopbar();
+}
+function updateTopbar(){
+  topbar.textContent = docs.length + ' document' + (docs.length===1?'':'s') + ' loaded — answers are grounded only in what you upload.';
+}
+
+async function handleFiles(files){
+  for(const file of files){
+    if(file.type !== 'application/pdf'){ hint.textContent = 'Skipped "'+file.name+'" — not a PDF.'; continue; }
+    hint.textContent = 'Reading ' + file.name + '…';
+    const buf = await file.arrayBuffer();
+    const pdf = await pdfjsLib.getDocument({data:buf}).promise;
+    let text = '';
+    for(let i=1;i<=pdf.numPages;i++){
+      const page = await pdf.getPage(i);
+      const content = await page.getTextContent();
+      text += `\n[Page ${i}]\n` + content.items.map(it=>it.str).join(' ');
+    }
+    docs.push({id: crypto.randomUUID(), name:file.name, pages:pdf.numPages, text: text.slice(0, 40000)});
+  }
+  hint.textContent = docs.length + ' file(s) ready.';
+  renderFiles();
+}
+
+function mdToHtml(md){
+  return md.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/^## (.*)$/gm,'<h2>$1</h2>')
+    .replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>')
+    .replace(/\n\n/g,'<br><br>').replace(/\n/g,'<br>');
+}
+
+function addMsg(role, content){
+  const div = document.createElement('div');
+  div.className = 'msg ' + role;
+  if(role==='user'){ div.textContent = content; }
+  else { div.innerHTML = mdToHtml(content); }
+  thread.appendChild(div);
+  thread.scrollTop = thread.scrollHeight;
+  return div;
+}
+
+function getPageBlocks(text){
+  const blocks = [];
+  const re = /\[Page (\d+)\]\n([\s\S]*?)(?=\n\[Page \d+\]\n|$)/g;
+  let match;
+  while((match = re.exec(text))){
+    blocks.push({page: Number(match[1]), text: match[2].trim()});
+  }
+  return blocks;
+}
+
+function buildLocalAnswer(question){
+  const tokens = [...new Set((question.toLowerCase().match(/[a-z0-9]{4,}/g) || []).filter(token => !stopWords.has(token)))];
+  const hits = [];
+
+  for(const doc of docs){
+    for(const block of getPageBlocks(doc.text)){
+      const lower = block.text.toLowerCase();
+      let score = 0;
+      let firstToken = '';
+
+      for(const token of tokens){
+        if(lower.includes(token)){
+          score++;
+          if(!firstToken) firstToken = token;
+        }
+      }
+
+      if(score === 0) continue;
+
+      const index = firstToken ? lower.indexOf(firstToken) : 0;
+      const start = Math.max(0, index - 90);
+      const end = Math.min(block.text.length, index + 180);
+      const snippet = block.text.slice(start, end).replace(/\s+/g, ' ').trim();
+      hits.push({doc: doc.name, page: block.page, score, snippet});
+    }
+  }
+
+  hits.sort((a, b) => b.score - a.score);
+
+  if(hits.length === 0){
+    return `I could not find a direct answer in the uploaded PDFs. Try asking with different keywords or upload more relevant pages.`;
+  }
+
+  const top = hits.slice(0, 3);
+  return [
+    `**Local mode answer**`,
+    `I searched your uploaded PDFs directly because no API key was provided.`,
+    '',
+    ...top.map(hit => `**${hit.doc}**, page ${hit.page}: ${hit.snippet}${hit.snippet.endsWith('.') ? '' : '.'}`),
+  ].join('\n');
+}
+
+document.getElementById('clearChat').onclick = ()=>{
+  history = [];
+  thread.innerHTML = '<div class="placeholder"><div class="big">Ask your documents anything</div>Upload lecture notes or papers, then ask a question. I\'ll answer only from what you\'ve given me, and tell you plainly when something isn\'t in there.</div>';
+};
+
+async function ask(){
+  const question = q.value.trim();
+  if(!question) return;
+  if(docs.length===0){ hint.textContent = 'Upload at least one PDF first.'; return; }
+  document.querySelector('.placeholder')?.remove();
+  q.value=''; go.disabled = true; hint.textContent='Thinking…';
+
+  addMsg('user', question);
+  const aiDiv = addMsg('ai', '<span class="cursor"></span>');
+
+  const context = docs.map(d=>`===== ${d.name} =====\n${d.text}`).join('\n\n');
+  history.push({role:'user', content: question});
+
+  try{
+    const apiKey = apiKeyInput.value.trim();
+    let full = '';
+
+    if(apiKey){
+      try{
+        const resp = await fetch('https://api.anthropic.com/v1/messages', {
+          method:'POST',
+          headers:{
+            'Content-Type':'application/json',
+            'x-api-key': apiKey,
+            'anthropic-version':'2023-06-01'
+          },
+          body: JSON.stringify({
+            model:'claude-sonnet-4-6',
+            max_tokens:1000,
+            system:`You are a study assistant for university students. Answer ONLY using the document content below. If the answer isn't there, say so plainly. Explain simply, define jargon briefly, and mention which document/page you drew from when relevant.\n\nDOCUMENTS:\n${context}`,
+            messages: history,
+            stream: true
+          })
+        });
+
+        if(!resp.ok || !resp.body){
+          const errData = await resp.json().catch(()=>({}));
+          throw new Error(errData.error?.message || 'Request failed');
+        }
+
+        const reader = resp.body.getReader();
+        const decoder = new TextDecoder();
+        let buf = '';
+        while(true){
+          const {done, value} = await reader.read();
+          if(done) break;
+          buf += decoder.decode(value, {stream:true});
+          const lines = buf.split('\n');
+          buf = lines.pop();
+          for(const line of lines){
+            if(!line.startsWith('data:')) continue;
+            const payload = line.slice(5).trim();
+            if(!payload || payload==='[DONE]') continue;
+            try{
+              const evt = JSON.parse(payload);
+              if(evt.type==='content_block_delta' && evt.delta?.text){
+                full += evt.delta.text;
+                aiDiv.innerHTML = mdToHtml(full) + '<span class="cursor"></span>';
+                thread.scrollTop = thread.scrollHeight;
+              }
+            } catch(e){}
+          }
+        }
+        full = full || '_No answer returned._';
+      } catch(apiErr){
+        full = buildLocalAnswer(question);
+        hint.textContent = 'API request failed, so the app switched to local mode.';
+      }
+    } else {
+      full = buildLocalAnswer(question);
+    }
+
+    aiDiv.innerHTML = mdToHtml(full);
+    history.push({role:'assistant', content: full});
+    hint.textContent = '';
+  } catch(err){
+    aiDiv.innerHTML = '<span style="color:#e26a5c">Error: '+(err.message||err)+'</span>';
+    history.pop();
+    hint.textContent = '';
+  } finally { go.disabled = false; }
+}
+
+go.addEventListener('click', ask);
+q.addEventListener('keydown', e=>{
+  if(e.key==='Enter' && !e.shiftKey){ e.preventDefault(); ask(); }
+});
+</script>
+</body>
+</html>

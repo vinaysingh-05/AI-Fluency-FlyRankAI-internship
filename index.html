@@ -3,45 +3,99 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Fluency & Web Projects Hub</title>
-    <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background-color: #0f172a; color: #f8fafc; padding: 40px 20px; text-align: center; }
-        h1 { font-size: 2.5rem; margin-bottom: 10px; color: #38bdf8; }
-        p { color: #94a3b8; margin-bottom: 30px; }
-        .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; max-width: 1000px; margin: 0 auto; }
-        .card { background: #1e293b; padding: 25px; border-radius: 12px; border: 1px solid #334155; text-align: left; transition: transform 0.2s, border-color 0.2s; }
-        .card:hover { transform: translateY(-5px); border-color: #38bdf8; }
-        .card h3 { color: #f1f5f9; margin-bottom: 10px; }
-        .card p { font-size: 0.9rem; color: #94a3b8; margin-bottom: 20px; }
-        .btn { display: inline-block; background: #0284c7; color: white; text-decoration: none; padding: 10px 18px; border-radius: 6px; font-weight: 600; font-size: 0.9rem; }
-        .btn:hover { background: #0369a1; }
-    </style>
+    <title>Flyrank AI Internship | AI Fluency Projects</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
-    <h1>🚀 My AI Fluency & Projects Hub</h1>
-    <p>All my Web Development & AI projects hosted in one place.</p>
+    <div class="background-glow"></div>
 
-    <div class="projects-grid">
+    <main class="container">
+        <!-- Header Section -->
+        <header class="header">
+            <span class="badge">Flyrank Internship</span>
+            <h1>AI Fluency Course Directory</h1>
+            <p>A central repository for all project modules and submissions built during the AI Fluency track at Flyrank.</p>
+        </header>
 
-        <!-- Project 1: Flyrank Internship -->
-        <div class="card">
-            <h3>Flyrank Internship AI Fluency</h3>
-            <p>AI Fluency project submission for Flyrank internship.</p>
-            <a href="./flyrank-internship/" class="btn" target="_blank">View Live Demo</a>
-        </div>
+        <!-- Projects Grid -->
+        <section class="projects-grid">
 
-        <!-- Project 2 (Example for future projects) -->
-        <!-- 
-        <div class="card">
-            <h3>Project Title Here</h3>
-            <p>Short description of the new project.</p>
-            <a href="./new-project-folder/" class="btn" target="_blank">View Live Demo</a>
-        </div> 
-        -->
+            <!-- PROJECT 1 -->
+            <article class="project-card">
+                <div class="card-header">
+                    <span class="tag">AI Fluency Module</span>
+                    <h3>AI Research Assistant</h3>
+                </div>
+                <p>AI Research Assistant module project developed under the AI Fluency track.</p>
+                
+                <div class="link-section">
+                    <span class="link-label">Deploy URL:</span>
+                    <a href="./AI_Research_Assistant/" target="_blank" class="deploy-link">
+                        ./AI_Research_Assistant/ ↗
+                    </a>
+                </div>
+            </article>
 
-    </div>
+            <!-- PROJECT 2 -->
+            <article class="project-card">
+                <div class="card-header">
+                    <span class="tag">AI Fluency Module</span>
+                    <h3>ML Research Website</h3>
+                </div>
+                <p>Machine Learning Research Website submission for the AI Fluency coursework.</p>
+                
+                <div class="link-section">
+                    <span class="link-label">Deploy URL:</span>
+                    <a href="./ML-research-website/" target="_blank" class="deploy-link">
+                        ./ML-research-website/ ↗
+                    </a>
+                </div>
+            </article>
+
+            <!-- PROJECT 3 -->
+            <article class="project-card">
+                <div class="card-header">
+                    <span class="tag">AI Fluency Module</span>
+                    <h3>Personal Brand Identity Kit</h3>
+                </div>
+                <p>Personal Brand Identity Kit designed as part of the AI Fluency practical assignments.</p>
+                
+                <div class="link-section">
+                    <span class="link-label">Deploy URL:</span>
+                    <a href="./Personal-Brand-Identity-Kit/" target="_blank" class="deploy-link">
+                        ./Personal-Brand-Identity-Kit/ ↗
+                    </a>
+                </div>
+            </article>
+
+            <!-- PROJECT 4 -->
+            <article class="project-card">
+                <div class="card-header">
+                    <span class="tag">AI Fluency Module</span>
+                    <h3>Portfolio Content Map</h3>
+                </div>
+                <p>Portfolio Content Mapping project structured during the Flyrank internship training.</p>
+                
+                <div class="link-section">
+                    <span class="link-label">Deploy URL:</span>
+                    <a href="./Portfolio-Content-Map/" target="_blank" class="deploy-link">
+                        ./Portfolio-Content-Map/ ↗
+                    </a>
+                </div>
+            </article>
+
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Flyrank AI Internship • AI Fluency Coursework</p>
+        </footer>
+    </main>
 
 </body>
 </html>

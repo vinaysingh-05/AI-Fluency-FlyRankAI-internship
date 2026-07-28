@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Vinay Kumar — Personal Brand Identity Kit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --primary:#2563EB;
+    --text:#111827;
+    --bg:#F9FAFB;
+    --accent:#10B981;
+    --card:#FFFFFF;
+    --border:#E5E7EB;
+    --muted:#6B7280;
+    --sp:8px;
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+
+  html,body{
+    background:#EEF0F3;
+    font-family:'Inter', sans-serif;
+    color:var(--text);
+  }
+
+  .page{
+    width:1280px;
+    height:960px;
+    margin:24px auto;
+    background:var(--bg);
+    padding:40px 48px;
+    display:flex;
+    flex-direction:column;
+    gap:24px;
+  }
+
+  h2.section-title{
+    font-family:'Poppins', sans-serif;
+    font-weight:600;
+    font-size:12px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--primary);
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin-bottom:16px;
+  }
+  h2.section-title .dot{
+    width:6px; height:6px; border-radius:50%;
+    background:var(--accent);
+  }
+
+  .card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:16px;
+    padding:24px;
+  }
+
+  /* ================= HEADER ================= */
+  .kit-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding-bottom:24px;
+    border-bottom:1px solid var(--border);
+  }
+
+  .kit-header .eyebrow{
+    font-size:11px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--primary);
+    font-weight:600;
+    margin-bottom:6px;
+  }
+
+  .kit-header h1{
+    font-family:'Poppins', sans-serif;
+    font-weight:700;
+    font-size:26px;
+    letter-spacing:-0.01em;
+  }
+
+  .header-identity{
+    display:flex;
+    align-items:center;
+    gap:16px;
+  }
+
+  .header-identity .name{
+    font-family:'Poppins', sans-serif;
+    font-weight:600;
+    font-size:16px;
+  }
+  .header-identity .role{
+    font-size:12.5px;
+    color:var(--muted);
+    font-weight:500;
+  }
+
+  /* ================= MAIN GRID ROW 1: Typography / Palette / Logo ================= */
+  .row-one{
+    display:grid;
+    grid-template-columns: 1.35fr 0.9fr 0.95fr;
+    gap:24px;
+    flex:1;
+  }
+
+  /* Typography */
+  .font-pair{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+    margin-bottom:16px;
+  }
+  .font-block{
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:12px 14px;
+    background:#FCFCFD;
+  }
+  .font-block .font-label{
+    font-size:10px;
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+    color:var(--muted);
+    font-weight:600;
+    margin-bottom:2px;
+  }
+  .font-block .font-name{
+    font-size:15px;
+    font-weight:700;
+    margin-bottom:8px;
+  }
+  .font-block.heading .font-name{ font-family:'Poppins', sans-serif; }
+  .font-block.body .font-name{ font-family:'Inter', sans-serif; font-weight:600;}
+  .glyphs{ font-size:11.5px; line-height:1.5; color:var(--text); }
+  .font-block.heading .glyphs{ font-family:'Poppins', sans-serif; font-weight:400;}
+  .font-block.body .glyphs{ font-family:'Inter', sans-serif; }
+  .glyph-row.nums{ color:var(--muted); }
+
+  .type-sample{
+    border-top:1px dashed var(--border);
+    padding-top:14px;
+  }
+  .type-sample .h-sample{
+    font-family:'Poppins', sans-serif;
+    font-weight:700;
+    font-size:19px;
+    line-height:1.3;
+    margin-bottom:8px;
+  }
+  .type-sample .p-sample{
+    font-family:'Inter', sans-serif;
+    font-size:12px;
+    color:var(--muted);
+    line-height:1.6;
+  }
+
+  /* Color Palette */
+  .swatch-col{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+  }
+  .swatch{
+    border:1px solid var(--border);
+    border-radius:12px;
+    overflow:hidden;
+    display:flex;
+    align-items:stretch;
+  }
+  .swatch .fill{
+    width:52px;
+    flex-shrink:0;
+  }
+  .swatch .meta{
+    padding:10px 12px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    gap:2px;
+  }
+  .swatch .meta .name{
+    font-family:'Poppins', sans-serif;
+    font-weight:600;
+    font-size:12px;
+  }
+  .swatch .meta .hex{
+    font-size:10.5px;
+    color:var(--muted);
+    font-family:'Inter', monospace, sans-serif;
+  }
+  .swatch .meta .usage{
+    font-size:9.5px;
+    color:var(--muted);
+    letter-spacing:0.02em;
+  }
+
+  /* Logo / Favicon */
+  .logo-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+  }
+  .logo-tile-wrap{
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:12px 10px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    background:#FCFCFD;
+  }
+  .logo-tile-wrap .cap{
+    font-size:9.5px;
+    color:var(--muted);
+    letter-spacing:0.04em;
+    text-transform:uppercase;
+  }
+  .mark-square{
+    width:52px; height:52px;
+    border-radius:14px;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .mark-square.primary{ background:var(--primary); }
+  .mark-square.white{ background:#fff; border:1px solid var(--border); }
+  .mark-circle{
+    width:52px; height:52px;
+    border-radius:50%;
+    background:var(--primary);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .mark-mono{
+    width:52px; height:52px;
+    border-radius:14px;
+    background:var(--text);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .mark-favicon{
+    width:16px; height:16px;
+    border-radius:4px;
+    background:var(--primary);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .favicon-frame{
+    width:52px; height:52px;
+    border:1px solid var(--border);
+    border-radius:8px;
+    background:#fff;
+    display:flex; align-items:center; justify-content:center;
+  }
+
+  /* ================= MAIN GRID ROW 2: Style Note / Brand Preview ================= */
+  .row-two{
+    display:grid;
+    grid-template-columns: 0.85fr 1.45fr;
+    gap:24px;
+  }
+
+  .style-card .row{ margin-bottom:14px; }
+  .style-card .row:last-child{ margin-bottom:0; }
+  .style-card .label{
+    font-size:10px;
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+    color:var(--primary);
+    font-weight:600;
+    margin-bottom:4px;
+  }
+  .style-card .value{
+    font-size:12px;
+    line-height:1.6;
+    color:var(--text);
+  }
+  .style-card .dots{ display:flex; gap:6px; margin-top:6px; }
+  .style-card .dots span{ width:14px; height:14px; border-radius:4px; border:1px solid var(--border); }
+
+  /* Brand Preview mockup */
+  .preview-frame{
+    border:1px solid var(--border);
+    border-radius:12px;
+    overflow:hidden;
+    background:#fff;
+  }
+  .mock-nav{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:12px 18px;
+    border-bottom:1px solid var(--border);
+  }
+  .mock-nav .brand{
+    display:flex; align-items:center; gap:8px;
+    font-family:'Poppins', sans-serif;
+    font-weight:600;
+    font-size:12.5px;
+  }
+  .mock-nav .brand .mini-mark{
+    width:20px; height:20px; border-radius:6px;
+    background:var(--primary);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .mock-nav .links{
+    display:flex; gap:18px;
+    font-size:11px;
+    color:var(--muted);
+    font-weight:500;
+  }
+  .mock-body{
+    padding:20px 18px;
+    display:flex;
+    gap:20px;
+  }
+  .mock-left{ flex:1.2; }
+  .mock-left .eyebrow{
+    font-size:10px; text-transform:uppercase; letter-spacing:0.08em;
+    color:var(--accent); font-weight:600; margin-bottom:6px;
+  }
+  .mock-left h3{
+    font-family:'Poppins', sans-serif;
+    font-weight:700;
+    font-size:18px;
+    line-height:1.3;
+    margin-bottom:8px;
+  }
+  .mock-left p{
+    font-size:11.5px;
+    color:var(--muted);
+    line-height:1.6;
+    margin-bottom:14px;
+    max-width:90%;
+  }
+  .mock-buttons{ display:flex; gap:10px; }
+  .btn-primary{
+    background:var(--primary);
+    color:#fff;
+    font-size:11.5px;
+    font-weight:600;
+    padding:9px 16px;
+    border-radius:8px;
+    font-family:'Inter', sans-serif;
+  }
+  .btn-secondary{
+    background:#fff;
+    color:var(--text);
+    font-size:11.5px;
+    font-weight:600;
+    padding:9px 16px;
+    border-radius:8px;
+    border:1px solid var(--border);
+    font-family:'Inter', sans-serif;
+  }
+  .mock-right{ flex:1; }
+  .project-card{
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:14px;
+  }
+  .project-card .thumb{
+    height:52px;
+    border-radius:8px;
+    background:var(--bg);
+    border:1px solid var(--border);
+    margin-bottom:10px;
+  }
+  .project-card h4{
+    font-family:'Poppins', sans-serif;
+    font-size:12.5px;
+    font-weight:600;
+    margin-bottom:4px;
+  }
+  .project-card p{
+    font-size:10.5px;
+    color:var(--muted);
+    line-height:1.5;
+    margin-bottom:8px;
+  }
+  .tag{
+    display:inline-block;
+    font-size:9.5px;
+    font-weight:600;
+    color:var(--accent);
+    background:rgba(16,185,129,0.1);
+    padding:3px 8px;
+    border-radius:6px;
+  }
+
+  /* ================= FOOTER ================= */
+  .kit-footer{
+    display:flex;
+    justify-content:space-between;
+    font-size:10.5px;
+    color:var(--muted);
+    padding-top:16px;
+    border-top:1px solid var(--border);
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="kit-header">
+    <div>
+      <div class="eyebrow">Brand Identity Kit</div>
+      <h1>Personal Brand Identity Kit</h1>
+    </div>
+    <div class="header-identity">
+      <div class="mark-square primary" style="width:48px;height:48px;border-radius:12px;">
+        <svg width="26" height="26" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M4 6H12L20 24L28 6H36L23 34H17L4 6Z" fill="white"/>
+          <path d="M22 34L27 22L36 34H28.5L26 30.5L23.5 34H22Z" fill="white" fill-opacity="0.55"/>
+        </svg>
+      </div>
+      <div>
+        <div class="name">Vinay Kumar</div>
+        <div class="role">AI &amp; Machine Learning Engineer</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ROW 1 -->
+  <div class="row-one">
+
+    <!-- Typography -->
+    <div class="card">
+      <h2 class="section-title"><span class="dot"></span>Typography</h2>
+      <div class="font-pair">
+        <div class="font-block heading">
+          <div class="font-label">Heading</div>
+          <div class="font-name">Poppins Bold</div>
+          <div class="glyphs">
+            <div class="glyph-row">ABCDEFGHIJKLMNOPQRSTUVWXYZ</div>
+            <div class="glyph-row">abcdefghijklmnopqrstuvwxyz</div>
+            <div class="glyph-row nums">0123456789</div>
+          </div>
+        </div>
+        <div class="font-block body">
+          <div class="font-label">Body</div>
+          <div class="font-name">Inter Regular</div>
+          <div class="glyphs">
+            <div class="glyph-row">ABCDEFGHIJKLMNOPQRSTUVWXYZ</div>
+            <div class="glyph-row">abcdefghijklmnopqrstuvwxyz</div>
+            <div class="glyph-row nums">0123456789</div>
+          </div>
+        </div>
+      </div>
+      <div class="type-sample">
+        <div class="h-sample">Building Intelligent Systems, End-to-End.</div>
+        <div class="p-sample">Vinay Kumar is an AI &amp; Machine Learning Engineer focused on designing production-ready intelligent systems that combine data, machine learning, and modern software engineering.</div>
+      </div>
+    </div>
+
+    <!-- Color Palette -->
+    <div class="card">
+      <h2 class="section-title"><span class="dot"></span>Color Palette</h2>
+      <div class="swatch-col">
+        <div class="swatch">
+          <div class="fill" style="background:#2563EB;"></div>
+          <div class="meta">
+            <div class="name">Primary</div>
+            <div class="hex">#2563EB</div>
+            <div class="usage">Buttons · Links · Highlights</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="fill" style="background:#111827;"></div>
+          <div class="meta">
+            <div class="name">Text</div>
+            <div class="hex">#111827</div>
+            <div class="usage">Headings · Paragraphs</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="fill" style="background:#F9FAFB; border-right:1px solid var(--border);"></div>
+          <div class="meta">
+            <div class="name">Background</div>
+            <div class="hex">#F9FAFB</div>
+            <div class="usage">Page background</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="fill" style="background:#10B981;"></div>
+          <div class="meta">
+            <div class="name">Accent</div>
+            <div class="hex">#10B981</div>
+            <div class="usage">Success · Charts · Indicators</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Logo / Favicon -->
+    <div class="card">
+      <h2 class="section-title"><span class="dot"></span>Logo &amp; Favicon</h2>
+      <div class="logo-grid">
+        <div class="logo-tile-wrap">
+          <div class="mark-square primary">
+            <svg width="30" height="30" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M4 6H12L20 24L28 6H36L23 34H17L4 6Z" fill="white"/>
+              <path d="M22 34L27 22L36 34H28.5L26 30.5L23.5 34H22Z" fill="white" fill-opacity="0.55"/>
+            </svg>
+          </div>
+          <div class="cap">App Icon</div>
+        </div>
+        <div class="logo-tile-wrap">
+          <div class="mark-circle">
+            <svg width="26" height="26" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M4 6H12L20 24L28 6H36L23 34H17L4 6Z" fill="white"/>
+              <path d="M22 34L27 22L36 34H28.5L26 30.5L23.5 34H22Z" fill="white" fill-opacity="0.55"/>
+            </svg>
+          </div>
+          <div class="cap">Avatar</div>
+        </div>
+        <div class="logo-tile-wrap">
+          <div class="favicon-frame">
+            <div class="mark-favicon">
+              <svg width="10" height="10" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M4 6H12L20 24L28 6H36L23 34H17L4 6Z" fill="white"/>
+                <path d="M22 34L27 22L36 34H28.5L26 30.5L23.5 34H22Z" fill="white" fill-opacity="0.55"/>
+              </svg>
+            </div>
+          </div>
+          <div class="cap">16px Favicon</div>
+        </div>
+        <div class="logo-tile-wrap">
+          <div class="mark-mono">
+            <svg width="30" height="30" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M4 6H12L20 24L28 6H36L23 34H17L4 6Z" fill="white"/>
+              <path d="M22 34L27 22L36 34H28.5L26 30.5L23.5 34H22Z" fill="white" fill-opacity="0.55"/>
+            </svg>
+          </div>
+          <div class="cap">Monochrome</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ROW 2 -->
+  <div class="row-two">
+
+    <!-- Style Note -->
+    <div class="card style-card">
+      <h2 class="section-title"><span class="dot"></span>Style Guide</h2>
+      <div class="row">
+        <div class="label">Fonts</div>
+        <div class="value">Poppins for headings and Inter for body text.</div>
+      </div>
+      <div class="row">
+        <div class="label">Palette</div>
+        <div class="value">#2563EB &middot; #111827 &middot; #F9FAFB &middot; #10B981</div>
+        <div class="dots">
+          <span style="background:#2563EB;"></span>
+          <span style="background:#111827;"></span>
+          <span style="background:#F9FAFB;"></span>
+          <span style="background:#10B981;"></span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="label">Mood</div>
+        <div class="value">Modern, minimal, trustworthy, and technology-focused. The visual identity stays quiet so the projects remain the strongest element of the portfolio.</div>
+      </div>
+    </div>
+
+    <!-- Brand Preview -->
+    <div class="card" style="padding:24px;">
+      <h2 class="section-title"><span class="dot"></span>Brand Preview</h2>
+      <div class="preview-frame">
+        <div class="mock-nav">
+          <div class="brand">
+            <div class="mini-mark">
+              <svg width="12" height="12" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M4 6H12L20 24L28 6H36L23 34H17L4 6Z" fill="white"/>
+                <path d="M22 34L27 22L36 34H28.5L26 30.5L23.5 34H22Z" fill="white" fill-opacity="0.55"/>
+              </svg>
+            </div>
+            Vinay Kumar
+          </div>
+          <div class="links">
+            <span>Work</span><span>About</span><span>Contact</span>
+          </div>
+        </div>
+        <div class="mock-body">
+          <div class="mock-left">
+            <div class="eyebrow">AI &amp; ML Engineer</div>
+            <h3>Designing intelligent systems that ship.</h3>
+            <p>A selection of production ML systems, research experiments, and full-stack AI products.</p>
+            <div class="mock-buttons">
+              <div class="btn-primary">View Projects</div>
+              <div class="btn-secondary">Contact Me</div>
+            </div>
+          </div>
+          <div class="mock-right">
+            <div class="project-card">
+              <div class="thumb"></div>
+              <h4>Model Deployment Pipeline</h4>
+              <p>End-to-end ML pipeline with automated retraining and monitoring.</p>
+              <span class="tag">Featured</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <div class="kit-footer">
+    <span>Vinay Kumar — AI &amp; Machine Learning Engineer</span>
+    <span>Personal Brand Identity Kit · v1.0</span>
+  </div>
+
+</div>
+
+</body>
+</html>

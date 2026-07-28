@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vinay Kumar — Portfolio Content Map</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0B0F19;
+    --panel:#121A2B;
+    --panel-2:#0F1524;
+    --border:#232E45;
+    --border-soft:#1A2338;
+    --text:#E9EDF5;
+    --text-dim:#93A0B8;
+    --text-faint:#5C6A85;
+    --amber:#F2A93B;
+    --amber-dim:#C98A2C;
+    --cyan:#3FD6C0;
+    --cyan-dim:#2AA595;
+    --radius:12px;
+    --font-display:'Space Grotesk',sans-serif;
+    --font-body:'Inter',sans-serif;
+    --font-mono:'JetBrains Mono',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--font-body);
+    line-height:1.6;
+    font-size:16px;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:var(--cyan);}
+
+  /* ---------- background node texture ---------- */
+  .node-field{
+    position:fixed;inset:0;z-index:0;pointer-events:none;
+    background-image:
+      radial-gradient(1px 1px at 10% 20%, var(--border-soft) 1px, transparent 1px),
+      radial-gradient(1px 1px at 80% 10%, var(--border-soft) 1px, transparent 1px),
+      radial-gradient(1px 1px at 60% 70%, var(--border-soft) 1px, transparent 1px),
+      radial-gradient(1px 1px at 30% 85%, var(--border-soft) 1px, transparent 1px),
+      radial-gradient(1px 1px at 90% 60%, var(--border-soft) 1px, transparent 1px);
+    background-size:900px 900px;
+    opacity:.5;
+  }
+
+  /* ---------- layout shell ---------- */
+  .shell{position:relative;z-index:1;display:flex;max-width:1280px;margin:0 auto;min-height:100vh;}
+
+  /* ---------- sidebar / the map ---------- */
+  .sidebar{
+    width:260px;flex-shrink:0;position:sticky;top:0;height:100vh;
+    padding:32px 20px;border-right:1px solid var(--border);
+    display:flex;flex-direction:column;gap:28px;
+    overflow-y:auto;
+  }
+  .brand{display:flex;flex-direction:column;gap:4px;}
+  .brand .mark{
+    font-family:var(--font-mono);font-size:11px;color:var(--amber);
+    letter-spacing:.14em;text-transform:uppercase;
+  }
+  .brand .name{font-family:var(--font-display);font-size:20px;font-weight:600;}
+  .brand .role{font-size:12.5px;color:var(--text-dim);}
+
+  .toc-group{display:flex;flex-direction:column;gap:2px;}
+  .toc-label{
+    font-family:var(--font-mono);font-size:10.5px;color:var(--text-faint);
+    text-transform:uppercase;letter-spacing:.12em;margin:14px 0 6px;
+  }
+  .toc-link{
+    position:relative;display:flex;align-items:center;gap:10px;
+    font-size:13.5px;color:var(--text-dim);text-decoration:none;
+    padding:7px 10px 7px 16px;border-radius:8px;border-left:2px solid transparent;
+    transition:color .15s ease, border-color .15s ease, background .15s ease;
+  }
+  .toc-link:hover{color:var(--text);background:var(--panel);}
+  .toc-link.active{color:var(--amber);border-left-color:var(--amber);background:var(--panel);}
+  .toc-link .dot{
+    width:5px;height:5px;border-radius:50%;background:var(--text-faint);flex-shrink:0;
+  }
+  .toc-link.active .dot{background:var(--amber);}
+
+  .sidebar-foot{
+    margin-top:auto;padding-top:16px;border-top:1px solid var(--border);
+    font-family:var(--font-mono);font-size:11px;color:var(--text-faint);
+    display:flex;flex-direction:column;gap:4px;
+  }
+  .sidebar-foot a{color:var(--text-dim);text-decoration:none;}
+  .sidebar-foot a:hover{color:var(--cyan);}
+
+  /* ---------- main ---------- */
+  main{flex:1;min-width:0;padding:56px 56px 120px;}
+
+  /* hero */
+  .hero{padding-bottom:40px;border-bottom:1px solid var(--border);margin-bottom:56px;}
+  .eyebrow{
+    font-family:var(--font-mono);font-size:12px;color:var(--cyan);
+    letter-spacing:.14em;text-transform:uppercase;margin-bottom:16px;display:block;
+  }
+  .hero h1{
+    font-family:var(--font-display);font-weight:600;
+    font-size:clamp(30px,4vw,46px);line-height:1.1;letter-spacing:-.01em;
+    max-width:820px;margin-bottom:20px;
+  }
+  .hero h1 .accent{color:var(--amber);}
+  .hero-meta{display:flex;flex-wrap:wrap;gap:10px 22px;font-size:13.5px;color:var(--text-dim);margin-bottom:24px;}
+  .hero-meta span{display:flex;align-items:center;gap:7px;}
+  .hero-meta b{color:var(--text);font-weight:500;}
+  .hero-tags{display:flex;flex-wrap:wrap;gap:8px;}
+  .tag{
+    font-family:var(--font-mono);font-size:11.5px;color:var(--text-dim);
+    border:1px solid var(--border);padding:4px 10px;border-radius:20px;
+  }
+
+  section{margin-bottom:72px;scroll-margin-top:32px;}
+  .sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:8px;}
+  .sec-num{font-family:var(--font-mono);font-size:13px;color:var(--amber);}
+  .sec-head h2{font-family:var(--font-display);font-size:26px;font-weight:600;}
+  .sec-sub{color:var(--text-dim);font-size:14.5px;max-width:680px;margin-bottom:28px;}
+
+  /* claim options table */
+  .claim-table{width:100%;border-collapse:collapse;margin-bottom:32px;}
+  .claim-table th{
+    text-align:left;font-family:var(--font-mono);font-size:11px;color:var(--text-faint);
+    text-transform:uppercase;letter-spacing:.08em;padding:0 14px 10px;border-bottom:1px solid var(--border);
+  }
+  .claim-table td{padding:13px 14px;border-bottom:1px solid var(--border-soft);font-size:14.5px;vertical-align:top;}
+  .claim-table td:first-child{font-family:var(--font-mono);color:var(--text-faint);width:30px;}
+  .claim-table tr:hover td{background:var(--panel);}
+
+  .final-claim{
+    background:linear-gradient(180deg,var(--panel),var(--panel-2));
+    border:1px solid var(--amber-dim);border-radius:var(--radius);
+    padding:28px 32px;position:relative;
+  }
+  .final-claim .badge{
+    font-family:var(--font-mono);font-size:10.5px;color:var(--bg);background:var(--amber);
+    padding:3px 10px;border-radius:20px;letter-spacing:.06em;text-transform:uppercase;
+    display:inline-block;margin-bottom:16px;
+  }
+  .final-claim p.claim-text{
+    font-family:var(--font-display);font-size:22px;font-weight:500;line-height:1.4;color:var(--text);margin-bottom:16px;
+  }
+  .final-claim ul{list-style:none;display:flex;flex-direction:column;gap:6px;}
+  .final-claim li{font-size:13.5px;color:var(--text-dim);padding-left:18px;position:relative;}
+  .final-claim li::before{content:"—";position:absolute;left:0;color:var(--cyan);}
+
+  /* content map cards */
+  .page-card{
+    background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);
+    margin-bottom:20px;overflow:hidden;
+  }
+  .page-card-head{
+    display:flex;align-items:center;justify-content:space-between;gap:16px;
+    padding:18px 24px;border-bottom:1px solid var(--border);
+  }
+  .page-card-head h3{font-family:var(--font-display);font-size:18px;font-weight:600;}
+  .page-idx{font-family:var(--font-mono);font-size:11px;color:var(--text-faint);}
+  .page-card-body{padding:22px 24px;display:grid;grid-template-columns:1.3fr 1fr;gap:24px;}
+  .field-label{
+    font-family:var(--font-mono);font-size:10.5px;color:var(--amber);
+    text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px;
+  }
+  .field{margin-bottom:18px;}
+  .field:last-child{margin-bottom:0;}
+  .sections-list{list-style:none;counter-reset:s;}
+  .sections-list li{
+    counter-increment:s;font-size:13.5px;color:var(--text-dim);padding:5px 0 5px 26px;position:relative;
+  }
+  .sections-list li::before{
+    content:counter(s);position:absolute;left:0;top:5px;
+    font-family:var(--font-mono);font-size:10.5px;color:var(--cyan);
+    width:18px;height:18px;border:1px solid var(--border);border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .field p{font-size:13.5px;color:var(--text-dim);}
+  .field p b{color:var(--text);font-weight:500;}
+  .cta-pill{
+    display:inline-flex;align-items:center;gap:6px;font-family:var(--font-mono);font-size:12px;
+    color:var(--bg);background:var(--cyan);padding:6px 14px;border-radius:20px;font-weight:600;
+  }
+  .cta-pill.secondary{background:transparent;color:var(--cyan);border:1px solid var(--cyan-dim);}
+  .real-badge{
+    font-family:var(--font-mono);font-size:9.5px;color:var(--bg);background:var(--amber);
+    padding:2px 7px;border-radius:10px;letter-spacing:.05em;text-transform:uppercase;margin-left:8px;
+  }
+
+  @media (max-width:820px){
+    .page-card-body{grid-template-columns:1fr;}
+  }
+
+  /* journey */
+  .journey{display:flex;flex-direction:column;gap:0;}
+  .journey-step{
+    display:flex;align-items:center;gap:18px;padding:16px 20px;
+    background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);
+  }
+  .journey-connector{
+    width:1px;height:26px;background:var(--border);margin-left:38px;position:relative;
+  }
+  .journey-connector::after{
+    content:"";position:absolute;left:-3px;bottom:-2px;width:7px;height:7px;
+    border-right:1px solid var(--cyan);border-bottom:1px solid var(--cyan);transform:rotate(45deg);
+  }
+  .journey-num{
+    font-family:var(--font-mono);font-size:13px;color:var(--bg);background:var(--cyan);
+    width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+    flex-shrink:0;font-weight:600;
+  }
+  .journey-step strong{font-family:var(--font-display);font-size:15.5px;font-weight:500;display:block;}
+  .journey-step span{font-size:13px;color:var(--text-dim);}
+
+  /* checklists */
+  .checklist-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px 32px;}
+  .check-item{
+    display:flex;align-items:center;gap:10px;font-family:var(--font-mono);font-size:13.5px;
+    color:var(--text-dim);padding:9px 0;border-bottom:1px solid var(--border-soft);
+  }
+  .check-box{
+    width:16px;height:16px;border:1px solid var(--text-faint);border-radius:4px;flex-shrink:0;
+  }
+  .check-box.done{background:var(--cyan);border-color:var(--cyan);position:relative;}
+  .check-box.done::after{
+    content:"";position:absolute;left:4px;top:1px;width:4px;height:8px;
+    border-right:2px solid var(--bg);border-bottom:2px solid var(--bg);transform:rotate(45deg);
+  }
+  .check-item.done{color:var(--text);}
+
+  @media (max-width:680px){.checklist-grid{grid-template-columns:1fr;}}
+
+  /* final checklist */
+  .final-list{display:flex;flex-direction:column;gap:10px;}
+  .final-item{
+    display:flex;align-items:flex-start;gap:12px;background:var(--panel);
+    border:1px solid var(--border);border-radius:10px;padding:14px 18px;font-size:14px;
+  }
+  .final-item .mark{color:var(--cyan);font-family:var(--font-mono);font-weight:600;flex-shrink:0;}
+
+  footer{
+    border-top:1px solid var(--border);padding-top:28px;margin-top:20px;
+    display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;
+    font-size:13px;color:var(--text-faint);
+  }
+  footer a{color:var(--text-dim);text-decoration:none;}
+  footer a:hover{color:var(--cyan);}
+
+  @media (max-width:960px){
+    .sidebar{display:none;}
+    main{padding:40px 24px 100px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="node-field"></div>
+
+<div class="shell">
+
+  <!-- ===== SIDEBAR — THE MAP ===== -->
+  <nav class="sidebar">
+    <div class="brand">
+      <span class="mark">Portfolio Content Map</span>
+      <span class="name">Vinay Kumar</span>
+      <span class="role">AI &amp; ML Engineer · Full Stack Developer</span>
+    </div>
+
+    <div class="toc-group">
+      <span class="toc-label">Document</span>
+      <a class="toc-link" data-target="claim" href="#claim"><span class="dot"></span>01 · One-line claim</a>
+      <a class="toc-link" data-target="map" href="#map"><span class="dot"></span>02 · Content map</a>
+      <a class="toc-link" data-target="journey" href="#journey"><span class="dot"></span>03 · User journey</a>
+      <a class="toc-link" data-target="gather" href="#gather"><span class="dot"></span>04 · Still to gather</a>
+      <a class="toc-link" data-target="final" href="#final"><span class="dot"></span>05 · Final checklist</a>
+    </div>
+
+    <div class="toc-group">
+      <span class="toc-label">Pages mapped</span>
+      <a class="toc-link" href="#p-home"><span class="dot"></span>Home</a>
+      <a class="toc-link" href="#p-projects"><span class="dot"></span>Projects</a>
+      <a class="toc-link" href="#p-case"><span class="dot"></span>Case study</a>
+      <a class="toc-link" href="#p-about"><span class="dot"></span>About</a>
+      <a class="toc-link" href="#p-experience"><span class="dot"></span>Experience</a>
+      <a class="toc-link" href="#p-certs"><span class="dot"></span>Certifications</a>
+      <a class="toc-link" href="#p-resume"><span class="dot"></span>Resume</a>
+      <a class="toc-link" href="#p-contact"><span class="dot"></span>Contact</a>
+    </div>
+
+    <div class="sidebar-foot">
+      <a href="mailto:vk8964210@gmail.com">vk8964210@gmail.com</a>
+      <a href="tel:+919891648446">+91 98916 48446</a>
+      <span>Delhi, India</span>
+    </div>
+  </nav>
+
+  <!-- ===== MAIN ===== -->
+  <main>
+
+    <div class="hero">
+      <span class="eyebrow">Submission-ready document · v2 · resume-verified</span>
+      <h1>Portfolio content map for <span class="accent">Vinay Kumar</span></h1>
+      <div class="hero-meta">
+        <span><b>Degree</b>&nbsp;B.Tech, AI &amp; Machine Learning</span>
+        <span><b>University</b>&nbsp;USAR, GGSIPU, Delhi</span>
+        <span><b>Goal</b>&nbsp;Convince recruiters he can design, build, and deploy practical AI solutions</span>
+      </div>
+      <div class="hero-tags">
+        <span class="tag">Machine Learning</span>
+        <span class="tag">Deep Learning</span>
+        <span class="tag">NLP</span>
+        <span class="tag">Computer Vision</span>
+        <span class="tag">Generative AI</span>
+        <span class="tag">RAG Systems</span>
+        <span class="tag">AI Agents</span>
+        <span class="tag">AI Automation</span>
+        <span class="tag">Full Stack AI Apps</span>
+      </div>
+    </div>
+
+    <!-- ===== 01 CLAIM ===== -->
+    <section id="claim">
+      <div class="sec-head"><span class="sec-num">01</span><h2>One-line claim</h2></div>
+      <p class="sec-sub">Ten candidate lines, scored for memorability and recruiter impact, followed by the selected and refined version.</p>
+
+      <table class="claim-table">
+        <tr><th>#</th><th>Claim option</th></tr>
+        <tr><td>01</td><td>I build AI systems that ship, not just notebooks that impress.</td></tr>
+        <tr><td>02</td><td>Turning machine learning research into production-ready products.</td></tr>
+        <tr><td>03</td><td>I design, build, and deploy AI that solves real business problems.</td></tr>
+        <tr><td>04</td><td>From raw data to deployed intelligence — end-to-end AI engineering.</td></tr>
+        <tr><td>05</td><td>Building AI agents and RAG systems that actually work in production.</td></tr>
+        <tr><td>06</td><td>I engineer machine learning solutions people can use, not just demo.</td></tr>
+        <tr><td>07</td><td>AI engineer turning models into measurable business impact.</td></tr>
+        <tr><td>08</td><td>I make AI practical — deployed, tested, and built to scale.</td></tr>
+        <tr><td>09</td><td>Bridging deep learning research and real-world deployment.</td></tr>
+        <tr><td>10</td><td>Full stack AI engineer — from Gemini-powered prototypes to 10,000-user products.</td></tr>
+      </table>
+
+      <div class="final-claim">
+        <span class="badge">Selected &amp; refined</span>
+        <p class="claim-text">"I design, build, and deploy AI systems — from raw data to production — not just proof-of-concepts."</p>
+        <ul>
+          <li>Mirrors the portfolio's core goal: design → build → deploy</li>
+          <li>Backed by evidence — a wellness AI shipped to 10,000+ students, an automated resume-screening pipeline, an interview-prep platform on Gemini</li>
+          <li>Signals full-stack range, not modeling skill alone</li>
+          <li>Reads in under three seconds — built for a hero section</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ===== 02 CONTENT MAP ===== -->
+    <section id="map">
+      <div class="sec-head"><span class="sec-num">02</span><h2>Portfolio content map</h2></div>
+      <p class="sec-sub">Every page, in order, with the sections it contains, the project it surfaces, why it's placed there, and its call to action. Rows marked <span class="real-badge">resume</span> are backed by verified, real project or work data.</p>
+
+      <!-- HOME -->
+      <div class="page-card" id="p-home">
+        <div class="page-card-head"><h3>Home</h3><span class="page-idx">Page 1 / 8</span></div>
+        <div class="page-card-body">
+          <div class="field">
+            <div class="field-label">Sections in order</div>
+            <ol class="sections-list">
+              <li>Hero — claim + name + role</li>
+              <li>Value proposition (3 strengths: ML/DL, GenAI &amp; RAG, AI agents &amp; automation)</li>
+              <li>Featured projects (top 3)</li>
+              <li>Skills snapshot</li>
+              <li>Experience highlights (2 internships, 1 line each)</li>
+              <li>Call to action band</li>
+            </ol>
+          </div>
+          <div>
+            <div class="field">
+              <div class="field-label">Projects shown <span class="real-badge">resume</span></div>
+              <p>AutoML Studio · AI Research Assistant (RAG) · AI Resume Screening System (real, built with Relay.app + Gemini API)</p>
+            </div>
+            <div class="field">
+              <div class="field-label">Why here</div>
+              <p>Three projects that prove range in one glance — automated ML pipelines, GenAI/RAG, and a shipped NLP automation tool solving a real hiring problem.</p>
+            </div>
+            <div class="field">
+              <div class="field-label">Call to action</div>
+              <span class="cta-pill">View all projects</span>
+              <span class="cta-pill secondary">Download resume</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PROJECTS -->
+      <div class="page-card" id="p-projects">
+        <div class="page-card-head"><h3>Projects</h3><span class="page-idx">Page 2 / 8</span></div>
+        <div class="page-card-body">
+          <div class="field">
+            <div class="field-label">Sections in order</div>
+            <ol class="sections-list">
+              <li>Page intro — one line on technical range</li>
+              <li>Category filters (ML, DL, NLP, CV, GenAI, Agents)</li>
+              <li>Flagship project (large card)</li>
+              <li>Project grid, strongest first</li>
+              <li>"More projects" archive link</li>
+            </ol>
+          </div>
+          <div>
+            <div class="field">
+              <div class="field-label">Full project order</div>
+              <p><b>1.</b> AutoML Studio (flagship) <b>2.</b> AI Research Assistant (RAG) <b>3.</b> AI Resume Screening System <span class="real-badge">resume</span> <b>4.</b> Climate Guardian AI <b>5.</b> Smart House Price Prediction <b>6.</b> Electricity Consumption Predictor <b>7.</b> AI Startup Valuation Predictor <b>8.</b> EV Battery Life Predictor <b>9.</b> Interview Salary Prediction AI <b>10.</b> Other builds — InterviewAI, Friendly, Postify <span class="real-badge">resume</span></p>
+            </div>
+            <div class="field">
+              <div class="field-label">Why here</div>
+              <p>Ordered so the most technically demanding, production-grade work leads, then breadth follows.</p>
+            </div>
+            <div class="field">
+              <div class="field-label">Call to action</div>
+              <span class="cta-pill">View case study</span>
+              <span class="cta-pill secondary">See GitHub repo</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CASE STUDY -->
+      <div class="page-card" id="p-case">
+        <div class="page-card-head"><h3>Individual case study</h3><span class="page-idx">Page 3 / 8 · template</span></div>
+        <div class="page-card-body">
+          <div class="field">
+            <div class="field-label">Sections in order</div>
+            <ol class="sections-list">
+              <li>Title + one-line summary</li>
+              <li>Problem statement</li>
+              <li>My role &amp; approach</li>
+              <li>Architecture / workflow diagram</li>
+              <li>Tech stack</li>
+              <li>Key challenges &amp; solutions</li>
+              <li>Results &amp; metrics (accuracy, precision, recall, F1, RMSE, MAE)</li>
+              <li>Before / after or demo screenshots</li>
+              <li>GitHub + live demo links</li>
+              <li>Reflection — what I'd improve next</li>
+            </ol>
+          </div>
+          <div>
+            <div class="field">
+              <div class="field-label">Example — resume screening study <span class="real-badge">resume</span></div>
+              <p>Automated pipeline (Relay.app + Google Gemini API) that accepts a PDF resume upload and returns an AI-generated skill-gap report against a target role — intake to report, no manual step.</p>
+            </div>
+            <div class="field">
+              <div class="field-label">Why here</div>
+              <p>This is the proof layer — shows <i>how</i> Vinay thinks, not just what he built, with hard evidence behind the claim.</p>
+            </div>
+            <div class="field">
+              <div class="field-label">Call to action</div>
+              <span class="cta-pill">View live demo</span>
+              <span class="cta-pill secondary">View code on GitHub</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ABOUT -->
+      <div class="page-card" id="p-about">
+        <div class="page-card-head"><h3>About</h3><span class="page-idx">Page 4 / 8</span></div>
+        <div class="page-card-body">
+          <div class="field">
+            <div class="field-label">Sections in order</div>
+            <ol class="sections-list">
+              <li>Photo + short bio</li>
+              <li>Academic background</li>
+              <li>Technical skills, by category</li>
+              <li>AI philosophy — one short paragraph</li>
+              <li>What I'm exploring next</li>
+            </ol>
+          </div>
+          <div>
+            <div class="field">
+              <div class="field-label">Skills, by category <span class="real-badge">resume</span></div>
+              <p><b>Languages &amp; core</b> Python, C++, TypeScript, DSA<br>
+                 <b>AI / ML &amp; GenAI</b> Deep learning, ML in Python, Google Gemini API, generative AI integration, AI workflow automation<br>
+                 <b>Web &amp; full stack</b> React, Next.js, FastAPI<br>
+                 <b>Mobile</b> Android Studio, Jetpack Compose<br>
+                 <b>Cloud &amp; tooling</b> Firebase, Vercel, Anaconda, Figma, Canva, n8n, Relay.app, Make</p>
+            </div>
+            <div class="field">
+              <div class="field-label">Why here</div>
+              <p>Builds trust before the case-study deep dive; confirms the breadth behind the AI claims.</p>
+            </div>
+            <div class="field">
+              <div class="field-label">Call to action</div>
+              <span class="cta-pill">See my work</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- EXPERIENCE -->
+      <div class="page-card" id="p-experience">
+        <div class="page-card-head"><h3>Experience</h3><span class="page-idx">Page 5 / 8</span></div>
+        <div class="page-card-body">
+          <div class="field">
+            <div class="field-label">Sections in order</div>
+            <ol class="sections-list">
+              <li>Timeline header</li>
+              <li>FlyRank AI — Machine Learning Engineering Intern</li>
+              <li>IBM · AICTE · BharatCares — AI Automation &amp; Intelligent Solutions Intern</li>
+              <li>Skills gained per internship</li>
+              <li>Certificates / proof link</li>
+            </ol>
+          </div>
+          <div>
+            <div class="field">
+              <div class="field-label">Real internship detail <span class="real-badge">resume</span></div>
+              <p><b>FlyRank AI</b> — built, trained and fine-tuned predictive ML models for real business use cases; optimized via hyperparameter tuning; improved input quality through data wrangling and feature engineering.<br><br>
+              <b>IBM BharatCares</b> — designed and deployed AI-driven workflows automating repetitive tasks; built and integrated intelligent automation solutions; collaborated on real-world problem statements from BharatCares.</p>
+            </div>
+            <div class="field">
+              <div class="field-label">Why here</div>
+              <p>Structured, real-world experience validates that these skills were tested outside academic projects.</p>
+            </div>
+            <div class="field">
+              <div class="field-label">Call to action</div>
+              <span class="cta-pill">View certifications</span>
+              <span class="cta-pill secondary">Download resume</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CERTIFICATIONS -->
+      <div class="page-card" id="p-certs">
+        <div class="page-card-head"><h3>Certifications</h3><span class="page-idx">Page 6 / 8</span></div>
+        <div class="page-card-body">
+          <div class="field">
+            <div class="field-label">Sections in order</div>
+            <ol class="sections-list">
+              <li>Page intro</li>
+              <li>Certification grid — title, issuer, date, credential link</li>
+              <li>Relevant coursework (optional)</li>
+            </ol>
+          </div>
+          <div>
+            <div class="field">
+              <div class="field-label">Real certifications <span class="real-badge">resume</span></div>
+              <p>Oracle Cloud Infrastructure 2025 Certified AI Foundations Associate — Oracle<br>
+              AI Automation &amp; Cloud Computing Verification — IBM<br>
+              Fundamentals of Generative AI Models — Google<br>
+              GenAI-Powered Data Analytics — Tata<br>
+              IoT &amp; Digital Transformation Verification — Cisco / Nasscom</p>
+            </div>
+            <div class="field">
+              <div class="field-label">Why here</div>
+              <p>Third-party validation reinforcing the technical claims made on About and Experience.</p>
+            </div>
+            <div class="field">
+              <div class="field-label">Call to action</div>
+              <span class="cta-pill">View full resume</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RESUME -->
+      <div class="page-card" id="p-resume">
+        <div class="page-card-head"><h3>Resume</h3><span class="page-idx">Page 7 / 8</span></div>
+        <div class="page-card-body">
+          <div class="field">
+            <div class="field-label">Sections in order</div>
+            <ol class="sections-list">
+              <li>Embedded resume preview (PDF viewer)</li>
+              <li>Download button</li>
+              <li>Quick summary — role, focus, top skills</li>
+            </ol>
+          </div>
+          <div>
+            <div class="field">
+              <div class="field-label">Projects / case study shown</div>
+              <p>None — the resume is the single-document summary of every other page.</p>
+            </div>
+            <div class="field">
+              <div class="field-label">Why here</div>
+              <p>Recruiters need a portable, ATS-friendly document they can forward internally — this page exists purely for conversion.</p>
+            </div>
+            <div class="field">
+              <div class="field-label">Call to action</div>
+              <span class="cta-pill">Download resume (PDF)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CONTACT -->
+      <div class="page-card" id="p-contact">
+        <div class="page-card-head"><h3>Contact</h3><span class="page-idx">Page 8 / 8</span></div>
+        <div class="page-card-body">
+          <div class="field">
+            <div class="field-label">Sections in order</div>
+            <ol class="sections-list">
+              <li>Short closing statement — reinforces the claim</li>
+              <li>Contact form — name, email, message</li>
+              <li>Direct links — email, phone, GitHub, LinkedIn</li>
+              <li>Response time note (optional)</li>
+            </ol>
+          </div>
+          <div>
+            <div class="field">
+              <div class="field-label">Real contact channels <span class="real-badge">resume</span></div>
+              <p>vk8964210@gmail.com · +91 98916 48446 · Delhi, India · GitHub · LinkedIn</p>
+            </div>
+            <div class="field">
+              <div class="field-label">Why here</div>
+              <p>The final conversion point — every prior page funnels here.</p>
+            </div>
+            <div class="field">
+              <div class="field-label">Call to action</div>
+              <span class="cta-pill">Send message</span>
+              <span class="cta-pill secondary">Email directly</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 03 JOURNEY ===== -->
+    <section id="journey">
+      <div class="sec-head"><span class="sec-num">03</span><h2>User journey</h2></div>
+      <p class="sec-sub">The path a recruiter follows from landing to conversion — every page reduces friction toward the same outcome.</p>
+
+      <div class="journey">
+        <div class="journey-step"><span class="journey-num">1</span><div><strong>Visitor lands on Home</strong><span>First impression, hero claim visible immediately</span></div></div>
+        <div class="journey-connector"></div>
+        <div class="journey-step"><span class="journey-num">2</span><div><strong>Reads the claim</strong><span>Design → build → deploy positioning lands in under 3 seconds</span></div></div>
+        <div class="journey-connector"></div>
+        <div class="journey-step"><span class="journey-num">3</span><div><strong>Views featured projects</strong><span>AutoML Studio, AI Research Assistant, AI Resume Screening System</span></div></div>
+        <div class="journey-connector"></div>
+        <div class="journey-step"><span class="journey-num">4</span><div><strong>Opens a case study</strong><span>Sees problem, approach, architecture, and results</span></div></div>
+        <div class="journey-connector"></div>
+        <div class="journey-step"><span class="journey-num">5</span><div><strong>Views GitHub + live demo</strong><span>Verifies the work is real and functioning</span></div></div>
+        <div class="journey-connector"></div>
+        <div class="journey-step"><span class="journey-num">6</span><div><strong>Checks About / Experience / Certifications</strong><span>Confirms credibility — FlyRank AI, IBM BharatCares, 5 certifications</span></div></div>
+        <div class="journey-connector"></div>
+        <div class="journey-step"><span class="journey-num">7</span><div><strong>Downloads resume</strong><span>Takes a portable, ATS-friendly summary</span></div></div>
+        <div class="journey-connector"></div>
+        <div class="journey-step"><span class="journey-num">8</span><div><strong>Contacts Vinay</strong><span>vk8964210@gmail.com · +91 98916 48446</span></div></div>
+      </div>
+    </section>
+
+    <!-- ===== 04 GATHER ===== -->
+    <section id="gather">
+      <div class="sec-head"><span class="sec-num">04</span><h2>Still need to gather</h2></div>
+      <p class="sec-sub">Items already covered by the resume are checked. Everything else is still to collect before launch.</p>
+
+      <div class="checklist-grid">
+        <div class="check-item done"><span class="check-box done"></span>GitHub repositories</div>
+        <div class="check-item done"><span class="check-box done"></span>Internship certificates (FlyRank AI, IBM BharatCares)</div>
+        <div class="check-item"><span class="check-box"></span>Screenshots</div>
+        <div class="check-item"><span class="check-box"></span>Live demos</div>
+        <div class="check-item"><span class="check-box"></span>Architecture diagrams</div>
+        <div class="check-item"><span class="check-box"></span>Workflow diagrams</div>
+        <div class="check-item"><span class="check-box"></span>Demo videos</div>
+        <div class="check-item"><span class="check-box"></span>Mentor feedback</div>
+        <div class="check-item"><span class="check-box"></span>Before / after comparisons</div>
+        <div class="check-item"><span class="check-box"></span>Accuracy metrics</div>
+        <div class="check-item"><span class="check-box"></span>Precision</div>
+        <div class="check-item"><span class="check-box"></span>Recall</div>
+        <div class="check-item"><span class="check-box"></span>F1 score</div>
+        <div class="check-item"><span class="check-box"></span>RMSE</div>
+        <div class="check-item"><span class="check-box"></span>MAE</div>
+        <div class="check-item"><span class="check-box"></span>Deployment links</div>
+        <div class="check-item done"><span class="check-box done"></span>Resume (PDF, up to date)</div>
+        <div class="check-item"><span class="check-box"></span>Testimonials</div>
+        <div class="check-item"><span class="check-box"></span>Research papers</div>
+        <div class="check-item"><span class="check-box"></span>Documentation</div>
+      </div>
+    </section>
+
+    <!-- ===== 05 FINAL CHECKLIST ===== -->
+    <section id="final">
+      <div class="sec-head"><span class="sec-num">05</span><h2>Final submission checklist</h2></div>
+      <p class="sec-sub">Verification pass before this document is considered submission-ready.</p>
+
+      <div class="final-list">
+        <div class="final-item"><span class="mark">✔</span>One memorable, refined, recruiter-friendly claim selected</div>
+        <div class="final-item"><span class="mark">✔</span>Every page has clearly ordered sections</div>
+        <div class="final-item"><span class="mark">✔</span>Strongest project — AutoML Studio — leads on Home and Projects</div>
+        <div class="final-item"><span class="mark">✔</span>Every page includes a defined call to action</div>
+        <div class="final-item"><span class="mark">✔</span>Every CTA funnels toward one goal — proving Vinay can design, build, and deploy AI</div>
+        <div class="final-item"><span class="mark">✔</span>Honest, complete "still to gather" list, cross-checked against resume-verified items</div>
+      </div>
+    </section>
+
+    <footer>
+      <span>Vinay Kumar · AI &amp; ML Engineer · B.Tech AI &amp; ML, USAR GGSIPU (2024–2028)</span>
+      <span><a href="mailto:vk8964210@gmail.com">vk8964210@gmail.com</a> · Delhi, India</span>
+    </footer>
+
+  </main>
+</div>
+
+<script>
+  const links = document.querySelectorAll('.toc-link[data-target]');
+  const targets = Array.from(links).map(l => document.getElementById(l.dataset.target)).filter(Boolean);
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if(e.isIntersecting){
+        links.forEach(l => l.classList.remove('active'));
+        const active = document.querySelector('.toc-link[data-target="'+e.target.id+'"]');
+        if(active) active.classList.add('active');
+      }
+    });
+  }, {rootMargin: '-20% 0px -70% 0px'});
+  targets.forEach(t => io.observe(t));
+</script>
+
+</body>
+</html>
