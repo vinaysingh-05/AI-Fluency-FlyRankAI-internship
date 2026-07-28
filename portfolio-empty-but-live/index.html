@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Vinay Kumar — Frontend Developer & AI/ML Engineer</title>
+<style>
+  :root {
+    --zinc-950: #09090b;
+    --zinc-900: rgba(24, 24, 27, 0.6);
+    --zinc-800: #27272a;
+    --zinc-700: #3f3f46;
+    --zinc-600: #52525b;
+    --zinc-500: #71717a;
+    --zinc-400: #a1a1aa;
+    --zinc-300: #d4d4d8;
+    --zinc-200: #e4e4e7;
+    --zinc-50: #fafafa;
+    --slate-500: #64748b;
+    --emerald-400: #34d399;
+    --emerald-300: #6ee7b7;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background: var(--zinc-950);
+    color: var(--zinc-200);
+    font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection {
+    background: rgba(52, 211, 153, 0.2);
+    color: #a7f3d0;
+  }
+
+  /* Ambient background */
+  .bg-layer {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .glow-orb {
+    position: absolute;
+    width: 24rem;
+    height: 24rem;
+    border-radius: 9999px;
+    filter: blur(64px);
+    animation: floatGlow 10s ease-in-out infinite;
+  }
+
+  .glow-orb--emerald {
+    top: -8rem;
+    left: -8rem;
+    background: rgba(16, 185, 129, 0.1);
+  }
+
+  .glow-orb--slate {
+    bottom: 0;
+    right: 0;
+    background: rgba(100, 116, 139, 0.1);
+    animation-delay: -5s;
+  }
+
+  .bg-fade {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, transparent, rgba(9, 9, 11, 0.6));
+  }
+
+  /* Layout */
+  .page {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 1.5rem;
+  }
+
+  main {
+    width: 100%;
+    max-width: 36rem;
+  }
+
+  /* Badge */
+  .badge-row {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2.5rem;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-radius: 9999px;
+    border: 1px solid rgba(52, 211, 153, 0.2);
+    background: rgba(52, 211, 153, 0.05);
+    padding: 0.375rem 1rem;
+    font-size: 0.8rem;
+    color: var(--emerald-300);
+  }
+
+  .pulse-dot {
+    position: relative;
+    display: inline-flex;
+    height: 0.5rem;
+    width: 0.5rem;
+    flex-shrink: 0;
+  }
+
+  .pulse-dot::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 9999px;
+    background: var(--emerald-400);
+    opacity: 0.75;
+    animation: ping 1.6s cubic-bezier(0, 0, 0.2, 1) infinite;
+  }
+
+  .pulse-dot::after {
+    content: "";
+    position: relative;
+    display: block;
+    height: 100%;
+    width: 100%;
+    border-radius: 9999px;
+    background: var(--emerald-400);
+  }
+
+  /* Identity */
+  .identity { text-align: center; }
+
+  .eyebrow {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    color: var(--zinc-500);
+    margin: 0 0 0.75rem;
+  }
+
+  .eyebrow span { color: var(--emerald-400); }
+
+  h1 {
+    font-size: 2.5rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: var(--zinc-50);
+    margin: 0;
+  }
+
+  .subtitle {
+    margin: 1rem 0 0;
+    font-size: 1rem;
+    color: var(--zinc-400);
+  }
+
+  .subtitle .amp { color: var(--zinc-600); }
+
+  /* Divider */
+  .divider {
+    margin: 2.5rem 0;
+    height: 1px;
+    width: 100%;
+    background: linear-gradient(to right, transparent, var(--zinc-700), transparent);
+  }
+
+  /* Terminal card */
+  .terminal {
+    border-radius: 0.5rem;
+    border: 1px solid var(--zinc-800);
+    background: var(--zinc-900);
+    backdrop-filter: blur(4px);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+  }
+
+  .terminal-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    border-bottom: 1px solid var(--zinc-800);
+    padding: 0.625rem 1rem;
+  }
+
+  .terminal-dot {
+    height: 0.625rem;
+    width: 0.625rem;
+    border-radius: 9999px;
+    background: var(--zinc-700);
+  }
+
+  .terminal-label {
+    margin-left: 0.5rem;
+    font-size: 0.68rem;
+    color: var(--zinc-600);
+  }
+
+  .terminal-body {
+    padding: 1.25rem;
+    font-size: 0.875rem;
+    line-height: 1.7;
+    color: var(--zinc-300);
+  }
+
+  .prompt { color: var(--emerald-400); }
+  .terminal-note { color: var(--zinc-400); }
+
+  .cursor-blink {
+    color: var(--zinc-300);
+    animation: blink 1s step-end infinite;
+  }
+
+  /* Footer */
+  footer {
+    margin-top: 4rem;
+    text-align: center;
+    font-size: 0.75rem;
+    color: var(--zinc-600);
+    letter-spacing: 0.02em;
+  }
+
+  footer .sep { color: var(--zinc-700); }
+
+  /* Responsive */
+  @media (min-width: 640px) {
+    .badge { font-size: 0.875rem; }
+    h1 { font-size: 3.75rem; }
+    .subtitle { font-size: 1.125rem; }
+  }
+
+  /* Animations */
+  @keyframes blink {
+    0%, 49% { opacity: 1; }
+    50%, 100% { opacity: 0; }
+  }
+
+  @keyframes floatGlow {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(20px, -20px) scale(1.05); }
+  }
+
+  @keyframes ping {
+    75%, 100% { transform: scale(2); opacity: 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cursor-blink, .glow-orb, .pulse-dot::before { animation: none !important; }
+  }
+</style>
+</head>
+<body>
+
+  <div class="bg-layer">
+    <div class="glow-orb glow-orb--emerald"></div>
+    <div class="glow-orb glow-orb--slate"></div>
+    <div class="bg-fade"></div>
+  </div>
+
+  <div class="page">
+    <main>
+
+      <div class="badge-row">
+        <span class="badge">
+          <span class="pulse-dot"></span>
+          Portfolio Under Construction — Build Week Active
+        </span>
+      </div>
+
+      <div class="identity">
+        <p class="eyebrow"><span>~/</span>portfolio</p>
+        <h1>Vinay Kumar</h1>
+        <p class="subtitle">Frontend Developer <span class="amp">&amp;</span> AI/ML Engineer</p>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="terminal-dot"></span>
+          <span class="terminal-dot"></span>
+          <span class="terminal-dot"></span>
+          <span class="terminal-label">status.log</span>
+        </div>
+        <div class="terminal-body">
+          <span class="prompt">$</span> echo $STATUS<br />
+          <span class="terminal-note">
+            Empty but live milestone reached. Case studies, identity kit, and full project showcase dropping soon.
+          </span><br />
+          <span class="prompt">$</span> <span class="cursor-blink">▌</span>
+        </div>
+      </div>
+
+    </main>
+
+    <footer>
+      Build Week Milestone <span class="sep">|</span> 2026
+    </footer>
+  </div>
+
+</body>
+</html>
