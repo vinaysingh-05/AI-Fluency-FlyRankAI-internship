@@ -1,0 +1,327 @@
+/* =========================================================
+   VK MUSIC — STYLESHEET
+   Organized top-to-bottom in the order sections appear in
+   index.html, so it's easy to find what styles what.
+   ========================================================= */
+
+/* ---------- RESET & BASE ----------
+   box-sizing: border-box everywhere so padding/border never blow out
+   declared widths — avoids constant manual width math. */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* CSS custom properties centralize the palette so every color reference
+   below points here — change the mood of the whole site in one place. */
+:root {
+  --bg-color: #0b0b0e;          /* near-black base, not pure black (softer on eyes) */
+  --bg-color-alt: #131318;      /* slightly lighter panel color for section contrast */
+  --text-primary: #f2f0ea;      /* warm off-white, not stark #fff */
+  --text-secondary: #9a97a3;    /* muted lavender-grey for secondary text */
+  --accent: #d94f4f;            /* warm red-orange accent — reads "warm studio light" */
+  --accent-hover: #e86a6a;
+  --border-subtle: rgba(255, 255, 255, 0.08);
+}
+
+body {
+  /* System font stack: zero network requests, loads instantly, still looks
+     modern on every OS. No external font files needed. */
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+               "Helvetica Neue", Arial, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-primary);
+  line-height: 1.6;
+  /* Subtle radial glow behind everything to avoid a flat, dead-black page —
+     this is what makes the dark theme feel "atmospheric" rather than plain. */
+  background-image: radial-gradient(circle at 50% 0%, #1c1a22 0%, var(--bg-color) 60%);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* ---------- HEADER / NAV ----------
+   position: sticky + top: 0 keeps nav reachable without JS scroll listeners. */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100; /* stays above hero/track content when scrolling */
+  background-color: rgba(11, 11, 14, 0.85);
+  backdrop-filter: blur(8px); /* frosted-glass feel over content scrolling beneath */
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.header-inner {
+  /* Flexbox: space-between pushes logo left / nav right with zero extra markup */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1100px;
+  margin: 0 auto; /* centers the bar within the full-width sticky header */
+  padding: 1.1rem 1.5rem;
+}
+
+.logo-text {
+  font-weight: 700;
+  font-size: 1.3rem;
+  letter-spacing: 0.05em;
+}
+
+.main-nav {
+  display: flex;
+  gap: 2rem; /* flex gap avoids margin-hacking between nav links */
+}
+
+.main-nav a {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  transition: color 0.2s ease;
+}
+
+.main-nav a:hover {
+  color: var(--text-primary);
+}
+
+/* ---------- HERO ---------- */
+.hero {
+  min-height: 90vh; /* fills most of the viewport without locking exact 100vh
+                        (which can clip on mobile browser chrome) */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 2rem 1.5rem;
+}
+
+.hero-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* centers logo/title/tagline/button as a stack */
+  max-width: 640px; /* keeps the tagline from stretching into unreadable long lines */
+}
+
+.logo-placeholder {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  border: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  color: var(--text-secondary);
+  margin-bottom: 2rem;
+  /* Faint gradient fill so the placeholder looks intentional, not broken */
+  background: linear-gradient(145deg, #1a1820, #100f14);
+}
+
+.brand-name {
+  font-size: clamp(2.75rem, 8vw, 5rem); /* fluid type scales smoothly instead
+                                            of jumping at breakpoints */
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin-bottom: 1.25rem;
+}
+
+.tagline {
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+  margin-bottom: 2.25rem;
+}
+
+.cta-button {
+  display: inline-block;
+  background-color: var(--accent);
+  color: #fff;
+  padding: 0.85rem 2rem;
+  border-radius: 999px; /* pill shape reads as a clear tappable action */
+  font-weight: 600;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.cta-button:hover {
+  background-color: var(--accent-hover);
+  transform: translateY(-2px); /* small lift on hover signals interactivity */
+}
+
+/* ---------- SHARED SECTION TITLE ---------- */
+.section-title {
+  text-align: center;
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 2.5rem;
+}
+
+/* ---------- TRACKS SECTION ---------- */
+.tracks-section {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 5rem 1.5rem;
+}
+
+.track-list {
+  display: flex;
+  flex-wrap: wrap; /* wraps cards to new rows on narrow screens — no media
+                       query needed for the basic reflow */
+  gap: 1.25rem;
+  justify-content: center;
+}
+
+.track-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background-color: var(--bg-color-alt);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  padding: 1rem;
+  width: 100%;
+  max-width: 480px; /* caps card width so text/art stay proportioned on wide screens */
+  transition: border-color 0.2s ease;
+}
+
+.track-card:hover {
+  border-color: rgba(217, 79, 79, 0.4); /* accent-tinted border hints interactivity
+                                            without a jarring full-color change */
+}
+
+.track-art {
+  width: 56px;
+  height: 56px;
+  flex-shrink: 0; /* prevents the flex row from squashing the artwork square
+                      when track titles run long */
+  border-radius: 6px;
+  background: linear-gradient(145deg, #22202a, #14131a);
+}
+
+.track-info {
+  flex-grow: 1; /* takes up remaining space so the play button stays pinned right */
+  min-width: 0; /* allows long titles to truncate/wrap instead of overflowing the card */
+}
+
+.track-title {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.2rem;
+}
+
+.track-meta {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.play-button {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  background-color: transparent;
+  border: 1px solid var(--border-subtle);
+  color: var(--text-primary);
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  flex-shrink: 0; /* keeps the button's own size fixed regardless of card width */
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.play-button:hover {
+  background-color: var(--accent);
+  border-color: var(--accent);
+}
+
+.play-icon {
+  font-size: 0.7rem; /* smaller than button text so the triangle glyph doesn't dominate */
+}
+
+/* ---------- ABOUT SECTION ---------- */
+.about-section {
+  max-width: 700px; /* narrower measure than tracks section — pure reading text
+                        needs shorter line lengths for comfortable reading */
+  margin: 0 auto;
+  padding: 2rem 1.5rem 6rem;
+  text-align: center;
+}
+
+.about-text {
+  color: var(--text-secondary);
+  font-size: 1.05rem;
+}
+
+/* ---------- FOOTER ---------- */
+.site-footer {
+  border-top: 1px solid var(--border-subtle);
+  background-color: var(--bg-color-alt);
+  padding: 4rem 1.5rem 2.5rem;
+}
+
+.footer-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* centers every footer element as a vertical stack */
+  text-align: center;
+  gap: 0.75rem;
+}
+
+.footer-heading {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.footer-email {
+  font-size: 1.2rem;
+  font-weight: 600;
+  transition: color 0.2s ease;
+}
+
+.footer-email:hover {
+  color: var(--accent);
+}
+
+.social-links {
+  display: flex;
+  gap: 1.5rem;
+  margin: 1.5rem 0;
+}
+
+.social-links a {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  transition: color 0.2s ease;
+}
+
+.social-links a:hover {
+  color: var(--text-primary);
+}
+
+.copyright {
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+  margin-top: 1rem;
+}
+
+/* ---------- RESPONSIVE ADJUSTMENTS ----------
+   Only ONE breakpoint is needed because flexbox already handles most reflow;
+   this just fine-tunes spacing/direction for small screens. */
+@media (max-width: 600px) {
+  .main-nav {
+    gap: 1.25rem; /* tighter nav spacing so 3 links fit small screens comfortably */
+  }
+
+  .track-card {
+    flex-wrap: wrap; /* lets the play button drop to its own line if the card
+                         gets too narrow for a single row */
+    justify-content: center;
+    text-align: center;
+  }
+
+  .track-info {
+    width: 100%; /* forces title/meta onto their own full-width line above
+                     the play button once wrapped */
+  }
+}

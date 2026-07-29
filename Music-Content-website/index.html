@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<!-- Responsive viewport is required so the flex layouts reflow correctly on mobile -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VK Music — Independent Producer &amp; Vocalist</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ============ HEADER ============
+       position: sticky (in CSS) keeps this visible while scrolling the long page,
+       which matters for a single-page site with no other way back to nav. -->
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="#hero" class="logo-text">VK</a>
+      <nav class="main-nav">
+        <a href="#tracks">Tracks</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ============ HERO ============
+       id="hero" gives the logo link above a scroll target.
+       Uses a flex column so the logo, title, and tagline stack and center
+       regardless of viewport height. -->
+  <section id="hero" class="hero">
+    <div class="hero-content">
+      <!-- Placeholder logo: a plain div styled as a circle in CSS.
+           Swap the div for <img src="logo.png" alt="VK Music logo"> when real art exists. -->
+      <div class="logo-placeholder" aria-label="VK Music channel logo placeholder">VK</div>
+
+      <h1 class="brand-name">VK Music</h1>
+      <p class="tagline">Independent production &amp; vocals — songs written, sung, and mixed in a bedroom studio, built for headphones and late nights.</p>
+
+      <!-- Anchor link doubles as a call-to-action, no JS needed -->
+      <a href="#tracks" class="cta-button">Listen Now</a>
+    </div>
+  </section>
+
+  <!-- ============ TRACKS ============
+       Flexbox wrap lets cards reflow from a row (desktop) to a column (mobile)
+       without any media-query duplication of layout logic. -->
+  <section id="tracks" class="tracks-section">
+    <h2 class="section-title">Recent Releases</h2>
+
+    <div class="track-list">
+
+      <!-- Each .track-card is an identical, self-contained block.
+           Duplicating this markup 3-4 times is intentional: it's simpler
+           and more transparent than generating cards with JS for a static page. -->
+      <article class="track-card">
+        <div class="track-art" aria-hidden="true"></div>
+        <div class="track-info">
+          <h3 class="track-title">Midnight Static</h3>
+          <p class="track-meta">Single · 2024</p>
+        </div>
+        <!-- type="button" prevents accidental form-submit behavior if this
+             page is ever embedded inside a form -->
+        <button type="button" class="play-button" aria-label="Play Midnight Static">
+          <span class="play-icon">&#9658;</span> Play
+        </button>
+      </article>
+
+      <article class="track-card">
+        <div class="track-art" aria-hidden="true"></div>
+        <div class="track-info">
+          <h3 class="track-title">Glass Horizon</h3>
+          <p class="track-meta">EP Track · 2024</p>
+        </div>
+        <button type="button" class="play-button" aria-label="Play Glass Horizon">
+          <span class="play-icon">&#9658;</span> Play
+        </button>
+      </article>
+
+      <article class="track-card">
+        <div class="track-art" aria-hidden="true"></div>
+        <div class="track-info">
+          <h3 class="track-title">Low Light</h3>
+          <p class="track-meta">Single · 2023</p>
+        </div>
+        <button type="button" class="play-button" aria-label="Play Low Light">
+          <span class="play-icon">&#9658;</span> Play
+        </button>
+      </article>
+
+      <article class="track-card">
+        <div class="track-art" aria-hidden="true"></div>
+        <div class="track-info">
+          <h3 class="track-title">Afterglow</h3>
+          <p class="track-meta">Single · 2023</p>
+        </div>
+        <button type="button" class="play-button" aria-label="Play Afterglow">
+          <span class="play-icon">&#9658;</span> Play
+        </button>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ============ ABOUT ============
+       Kept short and text-only: a wide max-width would hurt readability,
+       so this section is narrowed and centered in CSS. -->
+  <section id="about" class="about-section">
+    <h2 class="section-title">About</h2>
+    <p class="about-text">
+      VK Music is a one-person studio project — writing, singing, and mixing every
+      track independently. The sound leans atmospheric and lo-fi, built around
+      layered vocals and warm, imperfect production. New music drops when it's ready,
+      not on a schedule.
+    </p>
+  </section>
+
+  <!-- ============ FOOTER ============
+       Also acts as the Contact section (id="contact") so the nav link has
+       a target without needing a separate section. -->
+  <footer id="contact" class="site-footer">
+    <div class="footer-inner">
+      <p class="footer-heading">Booking &amp; Collaborations</p>
+      <a href="mailto:hello@vkmusic.example" class="footer-email">hello@vkmusic.example</a>
+
+      <!-- Social links: plain text labels instead of icon fonts/SVGs so the
+           page has zero external dependencies, per the "no libraries" requirement -->
+      <div class="social-links">
+        <a href="#" target="_blank" rel="noopener noreferrer">Instagram</a>
+        <a href="#" target="_blank" rel="noopener noreferrer">YouTube</a>
+        <a href="#" target="_blank" rel="noopener noreferrer">Spotify</a>
+        <a href="#" target="_blank" rel="noopener noreferrer">SoundCloud</a>
+      </div>
+
+      <p class="copyright">&copy; 2024 VK Music. All rights reserved.</p>
+    </div>
+  </footer>
+
+</body>
+</html>
