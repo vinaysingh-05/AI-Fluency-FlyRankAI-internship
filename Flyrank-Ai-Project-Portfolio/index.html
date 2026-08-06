@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vinay Kumar | Portfolio</title>
+  <style>
+    /* Reset & Base Styles */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-size: 1rem; /* 16px base font for crisp mobile readability */
+      line-height: 1.6;
+      color: #F3F4F6;
+      background-color: #0F172A;
+      padding: 1.25rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    /* Accessibility Focus States */
+    a:focus, button:focus {
+      outline: 2px solid #60A5FA;
+      outline-offset: 4px;
+    }
+
+    /* Header Section */
+    header {
+      padding: 2rem 0;
+      border-bottom: 1px solid #1E293B;
+      text-align: left;
+    }
+
+    h1 {
+      font-size: 2rem;
+      color: #FFFFFF;
+      margin-bottom: 0.5rem;
+    }
+
+    .subtitle {
+      color: #94A3B8;
+      font-size: 1.1rem;
+    }
+
+    /* Navigation Links / Tap Targets */
+    nav {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .nav-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px; /* Touch target minimum size for mobile */
+      padding: 0.75rem 1.25rem;
+      background-color: #1E293B;
+      color: #60A5FA;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: 600;
+      transition: background-color 0.2s ease;
+    }
+
+    .nav-btn:hover {
+      background-color: #334155;
+    }
+
+    /* Project Section Grid */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: 1fr; /* Mobile-first single column */
+      gap: 2rem;
+      margin-top: 2.5rem;
+    }
+
+    @media (min-width: 768px) {
+      .projects-grid {
+        grid-template-columns: repeat(2, 1fr); /* 2 columns on tablets/desktops */
+      }
+    }
+
+    .card {
+      background-color: #1E293B;
+      border-radius: 12px;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border: 1px solid #334155;
+      overflow: hidden; /* Prevents layout spills */
+    }
+
+    /* Image Rules to Prevent Mobile Spills */
+    .card img {
+      width: 100%;
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+      object-fit: cover;
+      margin-bottom: 1rem;
+    }
+
+    .card h3 {
+      font-size: 1.25rem;
+      color: #FFFFFF;
+      margin-bottom: 0.5rem;
+    }
+
+    .card p {
+      color: #CBD5E1;
+      font-size: 0.95rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .card-links {
+      display: flex;
+      gap: 0.75rem;
+      margin-top: auto;
+      flex-wrap: wrap;
+    }
+
+    .link-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px; /* Accessible mobile tap target */
+      padding: 0.5rem 1rem;
+      background-color: #2563EB;
+      color: #FFFFFF;
+      text-decoration: none;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    .link-btn.secondary {
+      background-color: #334155;
+      color: #F3F4F6;
+    }
+
+    footer {
+      margin-top: 4rem;
+      padding: 2rem 0;
+      border-top: 1px solid #1E293B;
+      text-align: center;
+      color: #64748B;
+      font-size: 0.875rem;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Vinay Kumar</h1>
+    <p class="subtitle">AI / ML Engineer & Software Developer</p>
+    <nav>
+      <a href="#projects" class="nav-btn">View Projects</a>
+      <a href="https://github.com/vinaysingh-05" target="_blank" rel="noopener" class="nav-btn">GitHub Profile</a>
+    </nav>
+  </header>
+
+  <main id="projects">
+    <div class="projects-grid">
+      
+      <!-- Project 1 -->
+      <article class="card">
+        <img src="https://picsum.photos/600/350" alt="Friendly Student Mental Wellness Platform Screenshot" width="600" height="350" loading="lazy" />
+        <h3>Friendly - Student Mental Wellness App</h3>
+        <p>A web-based student mental wellness platform providing supportive resources, peer interactions, and real-time support tools.</p>
+        <div class="card-links">
+          <a href="https://github.com/vinaysingh-05" class="link-btn" target="_blank" rel="noopener">Live Demo</a>
+          <a href="https://github.com/vinaysingh-05" class="link-btn secondary" target="_blank" rel="noopener">Repository</a>
+        </div>
+      </article>
+
+      <!-- Project 2 -->
+      <article class="card">
+        <img src="https://picsum.photos/600/351" alt="Diabetes Prediction App Interface Screenshot" width="600" height="351" loading="lazy" />
+        <h3>Diabetes Prediction Web App</h3>
+        <p>Lightweight predictive model built using Streamlit and TensorFlow Lite to compute instant risk evaluations.</p>
+        <div class="card-links">
+          <a href="https://github.com/vinaysingh-05" class="link-btn" target="_blank" rel="noopener">Live Demo</a>
+          <a href="https://github.com/vinaysingh-05" class="link-btn secondary" target="_blank" rel="noopener">Repository</a>
+        </div>
+      </article>
+      <!-- Example: Referencing local images from assets/images/ -->
+<article class="card">
+  <img 
+    src="assets/images/project-friendly.jpg" 
+    alt="Friendly Student Mental Wellness Platform Interface" 
+    width="600" 
+    height="350" 
+    loading="lazy"
+  />
+  <h3>Friendly - Student Mental Wellness App</h3>
+  <p>Web-based mental wellness platform with supportive resources and peer interaction tools.</p>
+  <div class="card-links">
+    <a href="https://github.com/vinaysingh-05" class="link-btn" target="_blank" rel="noopener">Live Demo</a>
+    <a href="https://github.com/vinaysingh-05" class="link-btn secondary" target="_blank" rel="noopener">Repository</a>
+  </div>
+</article>
+
+<article class="card">
+  <img 
+    src="assets/images/project-diabetes.jpg" 
+    alt="Diabetes Prediction Web App Dashboard" 
+    width="600" 
+    height="350" 
+    loading="lazy"
+  />
+  <h3>Diabetes Prediction Web App</h3>
+  <p>Lightweight predictive model using Streamlit and TensorFlow Lite for rapid risk evaluation.</p>
+  <div class="card-links">
+    <a href="https://github.com/vinaysingh-05" class="link-btn" target="_blank" rel="noopener">Live Demo</a>
+    <a href="https://github.com/vinaysingh-05" class="link-btn secondary" target="_blank" rel="noopener">Repository</a>
+  </div>
+</article>
+
+    </div>
+  </main>
+
+  <footer>
+    <p>© 2026 Vinay Kumar. Built for AI Fluency Track.</p>
+  </footer>
+
+</body>
+</html>
