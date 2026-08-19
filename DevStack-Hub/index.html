@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevStack Hub | Developer Resource & Snippet Saver</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        darkBg: '#0f172a',
+                        cardBg: '#1e293b',
+                        borderCol: '#334155'
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-darkBg text-slate-100 min-h-screen flex flex-col font-sans selection:bg-indigo-500 selection:text-white">
+
+    <!-- Header / Navbar -->
+    <header class="border-b border-borderCol bg-cardBg/50 backdrop-blur sticky top-0 z-30">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="bg-indigo-600 p-2 rounded-lg text-white shadow-lg shadow-indigo-500/30">
+                    <i class="fa-solid fa-code text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-lg tracking-tight">DevStack <span class="text-indigo-400">Hub</span></h1>
+                    <p class="text-xs text-slate-400 hidden sm:block">Local Snippet & Resource Manager</p>
+                </div>
+            </div>
+            <div class="flex items-center space-x-4">
+                <span id="snippet-counter" class="text-xs bg-slate-800 border border-borderCol px-3 py-1.5 rounded-full text-slate-300">
+                    0 Snippets Saved
+                </span>
+                <button onclick="openModal()" class="bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded-lg text-sm font-medium transition shadow-lg shadow-indigo-600/20 flex items-center space-x-2">
+                    <i class="fa-solid fa-plus"></i>
+                    <span>New Snippet</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Workspace Content -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        
+        <!-- Search & Category Filters -->
+        <div class="flex flex-col md:flex-row gap-4 mb-8 justify-between items-center">
+            <div class="relative w-full md:w-96">
+                <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </span>
+                <input type="text" id="search-input" oninput="handleSearch()" placeholder="Search by title, tag, or code..." 
+                    class="w-full pl-10 pr-4 py-2.5 bg-cardBg border border-borderCol rounded-xl text-sm focus:outline-none focus:border-indigo-500 transition text-slate-200 placeholder-slate-500">
+            </div>
+            <div class="flex items-center gap-2 w-full md:w-auto overflow-x-auto pb-2 md:pb-0" id="filter-chips">
+                <button onclick="filterCategory('All')" class="category-chip active px-4 py-2 rounded-xl text-xs font-medium bg-indigo-600 text-white transition whitespace-nowrap">All</button>
+                <button onclick="filterCategory('React')" class="category-chip px-4 py-2 rounded-xl text-xs font-medium bg-cardBg border border-borderCol text-slate-300 hover:bg-slate-800 transition whitespace-nowrap">React</button>
+                <button onclick="filterCategory('Python')" class="category-chip px-4 py-2 rounded-xl text-xs font-medium bg-cardBg border border-borderCol text-slate-300 hover:bg-slate-800 transition whitespace-nowrap">Python</button>
+                <button onclick="filterCategory('CSS')" class="category-chip px-4 py-2 rounded-xl text-xs font-medium bg-cardBg border border-borderCol text-slate-300 hover:bg-slate-800 transition whitespace-nowrap">CSS</button>
+                <button onclick="filterCategory('General')" class="category-chip px-4 py-2 rounded-xl text-xs font-medium bg-cardBg border border-borderCol text-slate-300 hover:bg-slate-800 transition whitespace-nowrap">General</button>
+            </div>
+        </div>
+
+        <!-- Snippets Grid -->
+        <div id="snippets-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Dynamically populated cards appear here -->
+        </div>
+
+        <!-- Empty State -->
+        <div id="empty-state" class="hidden flex flex-col items-center justify-center py-20 text-center">
+            <div class="bg-cardBg border border-borderCol p-6 rounded-2xl shadow-xl mb-4 text-slate-500">
+                <i class="fa-solid fa-folder-open text-4xl"></i>
+            </div>
+            <h3 class="text-lg font-medium text-slate-300">No snippets found</h3>
+            <p class="text-sm text-slate-500 max-w-sm mt-1">Try refining your search terms or adding a new code snippet to your hub.</p>
+        </div>
+    </main>
+
+    <!-- Modal Popup for New Snippet -->
+    <div id="snippet-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden opacity-0 transition-opacity duration-300">
+        <div class="bg-cardBg border border-borderCol rounded-2xl max-w-lg w-full p-6 shadow-2xl transform scale-95 transition-transform duration-300" id="modal-content">
+            <div class="flex justify-between items-center mb-6 border-b border-borderCol pb-4">
+                <h3 class="text-lg font-bold text-slate-100 flex items-center gap-2">
+                    <i class="fa-solid fa-code text-indigo-400"></i> Add New Snippet
+                </h3>
+                <button onclick="closeModal()" class="text-slate-400 hover:text-slate-100 transition">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+            
+            <form id="snippet-form" onsubmit="handleFormSubmit(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">Title</label>
+                    <input type="text" id="snippet-title" placeholder="e.g. Flexbox Center Utility" 
+                        class="w-full px-4 py-2.5 bg-darkBg border border-borderCol rounded-xl text-sm focus:outline-none focus:border-indigo-500 transition text-slate-200">
+                    <p id="error-title" class="text-xs text-rose-400 mt-1 hidden">Title is required.</p>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">Category</label>
+                    <select id="snippet-category" class="w-full px-4 py-2.5 bg-darkBg border border-borderCol rounded-xl text-sm focus:outline-none focus:border-indigo-500 transition text-slate-200">
+                        <option value="React">React</option>
+                        <option value="Python">Python</option>
+                        <option value="CSS">CSS</option>
+                        <option value="General">General</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">Code / Link Content</label>
+                    <textarea id="snippet-code" rows="6" placeholder="Paste your code or reference link here..." 
+                        class="w-full px-4 py-2.5 bg-darkBg border border-borderCol rounded-xl text-sm font-mono focus:outline-none focus:border-indigo-500 transition text-slate-200 resize-none"></textarea>
+                    <p id="error-code" class="text-xs text-rose-400 mt-1 hidden">Content is required.</p>
+                </div>
+
+                <div class="flex justify-end gap-3 pt-4 border-t border-borderCol">
+                    <button type="button" onclick="closeModal()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-sm font-medium transition">Cancel</button>
+                    <button type="submit" id="submit-btn" class="px-5 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-sm font-medium transition shadow-lg shadow-indigo-600/20 flex items-center gap-2">
+                        <span>Save Snippet</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast Notifications Container -->
+    <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+    <!-- Application Script Engine -->
+    <script>
+        // Load stored snippets or provide practical default mock examples
+        let snippets = JSON.parse(localStorage.getItem('devstack_snippets')) || [
+            { id: '1', title: 'React Functional Component Template', category: 'React', code: 'import React from "react";\n\nexport default function Component() {\n  return (\n    <div>Hello World</div>\n  );\n}', date: 'Feb 19, 2026' },
+            { id: '2', title: 'FastAPI Basic Server Setup', category: 'Python', code: 'from fastapi import FastAPI\n\napp = FastAPI()\n\n@app.get("/")\ndef read_root():\n    return {"ping": "pong"}', date: 'Feb 19, 2026' }
+        ];
+        
+        let currentCategoryFilter = 'All';
+        let isSubmitting = false; // Double-click prevention guard
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderSnippets();
+        });
+
+        // Modal Controls
+        function openModal() {
+            const modal = document.getElementById('snippet-modal');
+            const content = document.getElementById('modal-content');
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                content.classList.remove('scale-95');
+            }, 10);
+            document.getElementById('snippet-title').focus();
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('snippet-modal');
+            const content = document.getElementById('modal-content');
+            modal.classList.add('opacity-0');
+            content.classList.add('scale-95');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                document.getElementById('snippet-form').reset();
+                clearErrors();
+            }, 300);
+        }
+
+        function clearErrors() {
+            document.getElementById('error-title').classList.add('hidden');
+            document.getElementById('error-code').classList.add('hidden');
+        }
+
+        // Form Submission with Validation & Hardening Guard
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            if (isSubmitting) return;
+
+            const titleInput = document.getElementById('snippet-title');
+            const categoryInput = document.getElementById('snippet-category');
+            const codeInput = document.getElementById('snippet-code');
+
+            const title = titleInput.value.trim();
+            const category = categoryInput.value;
+            const code = codeInput.value.trim();
+
+            let isValid = true;
+
+            if (!title) {
+                document.getElementById('error-title').classList.remove('hidden');
+                isValid = false;
+            } else {
+                document.getElementById('error-title').classList.add('hidden');
+            }
+
+            if (!code) {
+                document.getElementById('error-code').classList.remove('hidden');
+                isValid = false;
+            } else {
+                document.getElementById('error-code').classList.add('hidden');
+            }
+
+            if (!isValid) return;
+
+            isSubmitting = true;
+            const submitBtn = document.getElementById('submit-btn');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = `<i class="fa-solid fa-spinner animate-spin"></i> Saving...`;
+
+            setTimeout(() => {
+                const newSnippet = {
+                    id: Date.now().toString(),
+                    title,
+                    category,
+                    code,
+                    date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+                };
+
+                snippets.unshift(newSnippet);
+                persistAndRender();
+                closeModal();
+                showToast('Snippet saved successfully!', 'success');
+
+                isSubmitting = false;
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = `<span>Save Snippet</span>`;
+            }, 250);
+        }
+
+        function persistAndRender() {
+            localStorage.setItem('devstack_snippets', JSON.stringify(snippets));
+            renderSnippets();
+        }
+
+        // Render Cards & Apply Filters
+        function renderSnippets() {
+            const grid = document.getElementById('snippets-grid');
+            const emptyState = document.getElementById('empty-state');
+            const counter = document.getElementById('snippet-counter');
+            const searchQuery = document.getElementById('search-input').value.toLowerCase();
+
+            counter.textContent = `${snippets.length} Snippet${snippets.length === 1 ? '' : 's'} Saved`;
+
+            const filtered = snippets.filter(item => {
+                const matchesCategory = currentCategoryFilter === 'All' || item.category === currentCategoryFilter;
+                const matchesSearch = item.title.toLowerCase().includes(searchQuery) || 
+                                      item.code.toLowerCase().includes(searchQuery) || 
+                                      item.category.toLowerCase().includes(searchQuery);
+                return matchesCategory && matchesSearch;
+            });
+
+            grid.innerHTML = '';
+
+            if (filtered.length === 0) {
+                emptyState.classList.remove('hidden');
+                return;
+            }
+
+            emptyState.classList.add('hidden');
+
+            filtered.forEach(item => {
+                const badgeColor = getCategoryColor(item.category);
+                const card = document.createElement('div');
+                card.className = 'bg-cardBg border border-borderCol rounded-2xl p-5 flex flex-col justify-between shadow-lg hover:border-slate-500 transition group';
+                card.innerHTML = `
+                    <div>
+                        <div class="flex justify-between items-start gap-2 mb-3">
+                            <span class="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full ${badgeColor}">${item.category}</span>
+                            <div class="flex items-center gap-1 opacity-80 group-hover:opacity-100 transition">
+                                <button onclick="copySnippet('${item.id}')" title="Copy Content" class="p-2 hover:bg-slate-800 rounded-lg text-slate-400 hover:text-indigo-400 transition">
+                                    <i class="fa-regular fa-copy text-sm"></i>
+                                </button>
+                                <button onclick="deleteSnippet('${item.id}')" title="Delete Snippet" class="p-2 hover:bg-slate-800 rounded-lg text-slate-400 hover:text-rose-400 transition">
+                                    <i class="fa-regular fa-trash-can text-sm"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <h4 class="font-semibold text-slate-200 text-sm mb-2 tracking-tight">${escapeHTML(item.title)}</h4>
+                        <div class="bg-darkBg border border-borderCol/50 rounded-xl p-3 font-mono text-xs text-slate-300 overflow-x-auto max-h-40 select-all">
+                            <pre><code>${escapeHTML(item.code)}</code></pre>
+                        </div>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-borderCol/40 flex justify-between items-center text-[11px] text-slate-500">
+                        <span>Added ${item.date}</span>
+                        <span class="font-mono">ID: ${item.id.slice(-4)}</span>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function filterCategory(category) {
+            currentCategoryFilter = category;
+            document.querySelectorAll('.category-chip').forEach(btn => {
+                if (btn.textContent.trim() === category) {
+                    btn.className = 'category-chip active px-4 py-2 rounded-xl text-xs font-medium bg-indigo-600 text-white transition whitespace-nowrap';
+                } else {
+                    btn.className = 'category-chip px-4 py-2 rounded-xl text-xs font-medium bg-cardBg border border-borderCol text-slate-300 hover:bg-slate-800 transition whitespace-nowrap';
+                }
+            });
+            renderSnippets();
+        }
+
+        function handleSearch() {
+            renderSnippets();
+        }
+
+        // Actions: Delete & Clipboard Copying
+        function deleteSnippet(id) {
+            snippets = snippets.filter(item => item.id !== id);
+            persistAndRender();
+            showToast('Snippet deleted successfully.', 'info');
+        }
+
+        function copySnippet(id) {
+            const target = snippets.find(item => item.id === id);
+            if (!target) return;
+
+            navigator.clipboard.writeText(target.code).then(() => {
+                showToast('Copied code to clipboard!', 'success');
+            }).catch(() => {
+                showToast('Failed to copy to clipboard.', 'error');
+            });
+        }
+
+        // Toast Notification System
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            
+            let bgClass = 'bg-slate-800 border-indigo-500/50 text-slate-200';
+            let icon = 'fa-circle-check text-emerald-400';
+            if (type === 'error') {
+                icon = 'fa-triangle-exclamation text-rose-400';
+            }
+
+            toast.className = `pointer-events-auto flex items-center gap-3 px-4 py-3 rounded-xl border ${bgClass} shadow-xl transform translate-y-2 opacity-0 transition-all duration-300 text-xs font-medium`;
+            toast.innerHTML = `<i class="fa-solid ${icon} text-base"></i><span>${message}</span>`;
+            
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.classList.remove('translate-y-2', 'opacity-0');
+            }, 10);
+
+            setTimeout(() => {
+                toast.classList.add('translate-y-2', 'opacity-0');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        function getCategoryColor(cat) {
+            switch(cat) {
+                case 'React': return 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/20';
+                case 'Python': return 'bg-amber-500/10 text-amber-400 border border-amber-500/20';
+                case 'CSS': return 'bg-pink-500/10 text-pink-400 border border-pink-500/20';
+                default: return 'bg-slate-500/10 text-slate-400 border border-slate-500/20';
+            }
+        }
+
+        function escapeHTML(str) {
+            return str.replace(/[&<>'"]/g, 
+                tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
+            );
+        }
+    </script>
+</body>
+</html>
